@@ -1,0 +1,106 @@
+% fig_kinova_lem.tex — Kinova lemniscate: sim vs real (vertically stacked)
+% Compile: lualatex examples/python/orc_paper_experiments/paper_figure/fig_kinova_lem.tex
+%
+% Data is built by make_lemniscate_figdata.py (combines real PlotJuggler
+% CSV + headless-sim CSV, computes EE positions via FK, resamples to a
+% common grid, and writes data/kinova_lemniscate.csv with columns:
+%   t, x_sim, y_sim, z_sim, x_real, y_real, z_real, dq0..dq6,
+%   eq_sim0..eq_sim6, eq_real0..eq_real6
+% where dq_i  = q_act_sim - q_act_real      (sim vs real, per joint)
+%       eq_sim_i = q_d - q_act in sim       (joint tracking error, sim)
+%       eq_real_i = q_d - q_act on real     (joint tracking error, real).
+\documentclass[border=2pt]{standalone}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{groupplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{table/col sep=comma}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{xcolor}
+
+%% Okabe-Ito palette (perceptually distinct, color-blind friendly)
+\definecolor{cJ1}{HTML}{0072B2}
+\definecolor{cJ2}{HTML}{D55E00}
+\definecolor{cJ3}{HTML}{009E73}
+\definecolor{cJ4}{HTML}{CC79A7}
+\definecolor{cJ5}{HTML}{F0E442}
+\definecolor{cJ6}{HTML}{56B4E9}
+\definecolor{cJ7}{HTML}{000000}
+\definecolor{cSim}{HTML}{0072B2}
+\definecolor{cReal}{HTML}{D55E00}
+
+%% Single-column figure width (IEEEtran). Bump to 178mm for a double-
+%% column spanning figure if needed.
+\newlength{\figwidth}
+\setlength{\figwidth}{88mm}
+
+\pgfplotsset{
+  orc/lem/.style={
+    tick label style={font=\scriptsize},
+    label style={font=\footnotesize},
+    legend style={font=\scriptsize, draw=none, fill=none},
+    every axis plot/.append style={line width=0.7pt, mark=none},
+    grid=both,
+    major grid style={draw=black!20, line width=0.3pt},
+    minor grid style={draw=black!10, line width=0.2pt},
+  },
+}
+
+\pgfplotstableread[col sep=comma]{data/kinova_lemniscate.csv}{\tblKinovaLem}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+  orc/lem,
+  group style={group size=1 by 1, vertical sep=1.5cm},
+  width=\figwidth,
+]
+
+%% --- Panel 1 (top): Lemniscate in the YZ end-effector plane ---
+%% The trajectory is planned in YZ with x fixed at the home pose, so a 2D
+%% projection gives the cleanest view of the figure-eight.
+\nextgroupplot[
+  height=4.5cm,
+  xlabel={$y$ in \si{\metre}},
+  ylabel={$z$ in \si{\metre}},
+  legend style={at={(0.65,1.0)}, anchor=south west, legend columns=1},
+  legend columns=-1
+  axis equal image,
+]
+\addplot[cSim, line width=0.9pt]
+  table[x=y_sim, y=z_sim] {\tblKinovaLem};
+\addlegendentry{sim}
+\addplot[cReal, line width=0.9pt, dashed]
+  table[x=y_real, y=z_real] {\tblKinovaLem};
+\addlegendentry{real}
+
+%% --- Panel 2 (bottom): Joint tracking error (q_d - q_act) per joint, ---
+%% solid = sim, dashed = real. Real curves are drawn with `forget plot`
+%% so the legend stays a clean q1..q7 (one entry per joint).
+% \nextgroupplot[
+%   height=4.5cm,
+%   xlabel={$t$ in \si{\second}},
+%   ylabel={$\mathbf{e}_q$ in \si{\radian}},
+%   legend style={at={(1.0,1.04)}, anchor=south east, legend columns=7,
+%                 column sep=2pt},
+% ]
+% \addplot[cJ1, solid] table[x=t, y=eq_sim0] {\tblKinovaLem}; \addlegendentry{$q_1$}
+% \addplot[cJ1, dashed, forget plot] table[x=t, y=eq_real0] {\tblKinovaLem};
+% \addplot[cJ2, solid] table[x=t, y=eq_sim1] {\tblKinovaLem}; \addlegendentry{$q_2$}
+% \addplot[cJ2, dashed, forget plot] table[x=t, y=eq_real1] {\tblKinovaLem};
+% \addplot[cJ3, solid] table[x=t, y=eq_sim2] {\tblKinovaLem}; \addlegendentry{$q_3$}
+% \addplot[cJ3, dashed, forget plot] table[x=t, y=eq_real2] {\tblKinovaLem};
+% \addplot[cJ4, solid] table[x=t, y=eq_sim3] {\tblKinovaLem}; \addlegendentry{$q_4$}
+% \addplot[cJ4, dashed, forget plot] table[x=t, y=eq_real3] {\tblKinovaLem};
+% \addplot[cJ5, solid] table[x=t, y=eq_sim4] {\tblKinovaLem}; \addlegendentry{$q_5$}
+% \addplot[cJ5, dashed, forget plot] table[x=t, y=eq_real4] {\tblKinovaLem};
+% \addplot[cJ6, solid] table[x=t, y=eq_sim5] {\tblKinovaLem}; \addlegendentry{$q_6$}
+% \addplot[cJ6, dashed, forget plot] table[x=t, y=eq_real5] {\tblKinovaLem};
+% \addplot[cJ7, solid] table[x=t, y=eq_sim6] {\tblKinovaLem}; \addlegendentry{$q_7$}
+% \addplot[cJ7, dashed, forget plot] table[x=t, y=eq_real6] {\tblKinovaLem};
+
+\end{groupplot}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,159 @@
+name: Release
+
+# Tag-driven release: builds wheels + sdist, publishes to PyPI via
+# Trusted Publishing (OIDC), and creates a GitHub Release with
+# auto-generated notes and the built artifacts attached.
+#
+# Prerequisites (manual, one-time, by a repo admin):
+#   * Configure PyPI Trusted Publisher at:
+#       https://pypi.org/manage/account/publishing/
+#     with:
+#       owner:       <github-org-or-user>
+#       repository:  orc-a (or the published repo name)
+#       workflow:    release.yml
+#       environment: pypi
+#   * Create a GitHub environment named "pypi" (Settings -> Environments)
+#     optionally with required reviewers / protection rules.
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Wheels (cibuildwheel) — mirror the matrix from the old BuildWheels.yml
+  # ---------------------------------------------------------------------------
+  build_wheels:
+    name: Build wheels (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@95d2f3a92fbf80abe066b09418bbf128a8923df2 # v3.0.1
+        with:
+          config-file: ./python/.cibuildwheels.toml
+
+      - name: Smoke-test built wheel
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          WHEEL=$(ls ./wheelhouse/*.whl | head -n 1)
+          echo "Installing $WHEEL"
+          python -m pip install "$WHEEL"
+          python -c "import orcpy; import orcpy.core; print('orcpy import OK')"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          path: ./wheelhouse/*.whl
+
+  # ---------------------------------------------------------------------------
+  # Source distribution
+  # ---------------------------------------------------------------------------
+  build_sdist:
+    name: Build sdist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build
+        run: python -m pip install --upgrade pip build
+
+      - name: Build sdist
+        run: python -m build --sdist --outdir dist
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: sdist
+          path: dist/*.tar.gz
+
+  # ---------------------------------------------------------------------------
+  # Publish to PyPI (Trusted Publishing / OIDC — no API tokens)
+  # ---------------------------------------------------------------------------
+#  publish_pypi:
+#    name: Publish to PyPI
+#    needs: [build_wheels, build_sdist]
+#    runs-on: ubuntu-latest
+#    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+#    # The "pypi" environment must be pre-configured in the repo settings
+#    # and registered as a Trusted Publisher at
+#    # https://pypi.org/manage/account/publishing/
+#    environment:
+#      name: pypi
+#      url: https://pypi.org/p/orcpy
+#    permissions:
+#      id-token: write
+#      contents: read
+#    steps:
+#      - name: Download wheels
+#        uses: actions/download-artifact@v4
+#        with:
+#          pattern: cibw-wheels-*
+#          merge-multiple: true
+#          path: dist
+#
+#      - name: Download sdist
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: sdist
+#          path: dist
+#
+#      - name: Publish to PyPI
+#        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # release/v1
+#        # No username/password/token — Trusted Publishing via OIDC.
+
+  # ---------------------------------------------------------------------------
+  # GitHub Release with auto-generated notes + artifacts
+  # ---------------------------------------------------------------------------
+  github_release:
+    name: GitHub Release
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - name: Download wheels
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cibw-wheels-*
+          merge-multiple: true
+          path: dist
+
+      - name: Download sdist
+        uses: actions/download-artifact@v4
+        with:
+          name: sdist
+          path: dist
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            dist/*.whl
+            dist/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

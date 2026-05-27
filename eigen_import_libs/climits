@@ -1,0 +1,6 @@
+#if defined(TC_BUILD) && !defined(CLIMITS_H)
+#define CLIMITS_H
+	#include<limits.h>
+#endif; 
+
+

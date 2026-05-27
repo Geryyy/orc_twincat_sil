@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcModuleClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2009/05/TcModuleClass">
+  <Vendor>
+    <Name>C++ Module Vendor</Name>
+  </Vendor>
+  <DataTypes ><DataType><Name GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</Name><SubItem><Name>Values</Name><Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>2</Elements></ArrayInfo></SubItem><Hides><Hide GUID="{81900a0e-0d2f-4670-a8a8-4c8fbbe7b35e}" /><Hide GUID="{b7c43d7f-b781-4515-b2b6-dc67ef0c83f1}" /></Hides></DataType><DataType><Name GUID="{A310A946-D536-4A8A-9C58-A521C053E0BD}">udp_msg</Name><BitSize>11800</BitSize><SubItem><Name>request</Name><Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type><BitSize>8</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>size</Name><Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type><BitSize>16</BitSize><BitOffs>8</BitOffs></SubItem><SubItem><Name>data</Name><Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type><ArrayInfo><LBound>0</LBound><Elements>1472</Elements></ArrayInfo><BitSize>11776</BitSize><BitOffs>24</BitOffs></SubItem><Hides><Hide GUID="{B56BFCFB-0B2F-480D-B34D-8C73F69C3BB8}" /></Hides></DataType><DataType><Name GUID="{7081F11C-23FB-4BBB-A810-166A40CF032A}">Vec2D</Name><BitSize>128</BitSize><SubItem><Name>x</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><BitSize>64</BitSize><BitOffs>0</BitOffs></SubItem><SubItem><Name>y</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><BitSize>64</BitSize><BitOffs>64</BitOffs></SubItem></DataType><DataType><Name GUID="{27edeb22-d66a-44fb-9b83-67fefd6fef17}">ModeOfOperation_e</Name><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[Stop]]></Text><Enum>0</Enum></EnumInfo><EnumInfo><Text><![CDATA[Position]]></Text><Enum>8</Enum></EnumInfo><EnumInfo><Text><![CDATA[Velocity]]></Text><Enum>9</Enum></EnumInfo><EnumInfo><Text><![CDATA[Force]]></Text><Enum>10</Enum></EnumInfo><Hides><Hide GUID="{3c969884-832b-4f71-8aea-9764a70e6692}" /></Hides></DataType></DataTypes>
+  <Groups>
+    <Group SortOrder="701">
+      <Name>C++</Name>
+      <DisplayName>C++ Modules</DisplayName>
+    </Group>
+  </Groups>
+  <Modules>
+    <Module GUID="{3352bf5b-5895-4a40-9a89-e383d96907e8}" Group="C++">
+      <Name>ArcLinAxisContr</Name>
+      <CLSID ClassFactory="ArcLinAxisControl">{3352bf5b-5895-4a40-9a89-e383d96907e8}</CLSID>
+      <Licenses>
+        <License>
+          <LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+          <Comment>TC3 C++</Comment>
+        </License>
+      </Licenses>
+      <InitSequence>PSO</InitSequence>
+      <Contexts>
+        <Context>
+          <Id>1</Id>
+        </Context>
+      </Contexts>
+      <Interfaces>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+        </Interface>
+        <Interface>
+          <Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+        </Interface>
+      </Interfaces>
+      <Parameters>
+        <Parameter>
+          <Name>TraceLevelMax</Name>
+          <Comment>Controls the amount of log messages.</Comment>
+          <BaseType GUID="{8007ae3b-86bb-40f2-b385-ef87fcc239a4}">TcTraceLevel</BaseType>
+          <PTCID>#x03002103</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+        <Parameter>
+          <Name>mode_of_operation</Name><BaseType GUID="{27edeb22-d66a-44fb-9b83-67fefd6fef17}" >ModeOfOperation_e</BaseType>
+          <PTCID>#x00000001</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter><Parameter><Name>Ts</Name><BaseType GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</BaseType><Default><Min>1e-5</Min><Max>1</Max><Value>1e-3</Value></Default><PTCID>#x00000004</PTCID><ContextId>1</ContextId></Parameter><Parameter><Name>MujocoModelPath</Name><BaseType GUID="{18071995-0000-0000-0000-00010000007f}">STRING(127)</BaseType><PTCID>#x00000005</PTCID><ContextId>1</ContextId></Parameter>
+      </Parameters>
+      <DataAreas>
+        <DataArea><AreaNo AreaType="InputDst" CreateSymbols="true">3</AreaNo><Name>Inputs</Name><ContextId>1</ContextId><Symbol><Name>enable</Name><BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType></Symbol><Symbol><Name>disable</Name><BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType></Symbol><Symbol CreateSymbol="true"><Name>auto_enable</Name><BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType></Symbol></DataArea><DataArea><AreaNo AreaType="OutputSrc" CreateSymbols="true">4</AreaNo><Name>Outputs</Name><ContextId>1</ContextId><Symbol><Name>q_act</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>q_dot_act</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>q_set</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>q_dot_set</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>q_dotdot_set</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>e_jointspace</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>tau_set</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>model_path</Name><BaseType GUID="{18071995-0000-0000-0000-0001000000ff}">STRING(255)</BaseType></Symbol></DataArea><DataArea>
+          <AreaNo AreaType="InputDst" CreateSymbols="true">0</AreaNo>
+          <Name>motor_interface_in</Name>
+          <ContextId>1</ContextId><Symbol><Name>force_act</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>position_act</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>velocity_act</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>motion_enabled</Name><DisplayName TxtId="" /><BaseType GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</BaseType></Symbol>
+        </DataArea>
+        <DataArea>
+          <AreaNo AreaType="OutputSrc" CreateSymbols="true">1</AreaNo>
+          <Name>motor_interface_out</Name>
+          <ContextId>1</ContextId><Symbol><Name>mode_of_operation</Name><BaseType GUID="{18071995-0000-0000-0000-000000000002}">USINT</BaseType></Symbol><Symbol><Name>motion_enable</Name><BaseType GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</BaseType></Symbol><Symbol><Name>motion_disable</Name><BaseType GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</BaseType></Symbol><Symbol><Name>force_set</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>position_set</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>velocity_set</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol><Symbol><Name>motor_enable</Name><BaseType GUID="{a546b7ac-861c-4456-87f1-845572578330}">linaxis_t</BaseType></Symbol>
+        </DataArea>
+      </DataAreas>
+      <InterfacePointers>
+        <InterfacePointer>
+          <PTCID>#x03002060</PTCID>
+          <Name>CyclicCaller</Name>
+          <Type GUID="{0300001e-0000-0000-e000-000000000064}">ITcCyclicCaller</Type>
+        </InterfacePointer>
+      </InterfacePointers>
+      <DataPointers ><DataPointer><PTCID>#x00000002</PTCID><Name>udp_tx_msg</Name><Type GUID="{a310a946-d536-4a8a-9c58-a521c053e0bd}">udp_msg</Type><ContextId>1</ContextId></DataPointer><DataPointer><PTCID>#x00000003</PTCID><Name>udp_rx_msg</Name><Type GUID="{a310a946-d536-4a8a-9c58-a521c053e0bd}">udp_msg</Type><ContextId>1</ContextId></DataPointer></DataPointers>
+      <Deployment />
+    </Module>
+  </Modules>
+  <Library>
+    <Name>ArcLinAxisControl</Name>
+    <Version>0.0.0.1</Version>
+  </Library>
+</TcModuleClass>

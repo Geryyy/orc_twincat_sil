@@ -1,0 +1,44 @@
+---
+# ORC C++ style. Based on Google with project-specific tweaks calibrated to
+# the dominant style in include/orc/ (4-space indent, wider lines, templates
+# broken on their own line).
+BasedOnStyle: Google
+Language: Cpp
+Standard: c++17
+
+ColumnLimit: 100
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ContinuationIndentWidth: 4
+AccessModifierOffset: -4
+
+PointerAlignment: Left
+DerivePointerAlignment: false
+
+AlwaysBreakTemplateDeclarations: Yes
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortLambdasOnASingleLine: All
+
+BreakBeforeBraces: Attach
+NamespaceIndentation: None
+FixNamespaceComments: true
+CompactNamespaces: false
+
+IncludeBlocks: Preserve
+SortIncludes: CaseSensitive
+SortUsingDeclarations: true
+
+SpacesBeforeTrailingComments: 2
+SpaceAfterTemplateKeyword: true
+SpaceBeforeParens: ControlStatements
+
+AllowAllParametersOfDeclarationOnNextLine: false
+BinPackArguments: true
+BinPackParameters: true
+
+ReflowComments: true
+...

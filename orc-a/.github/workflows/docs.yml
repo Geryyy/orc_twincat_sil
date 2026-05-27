@@ -1,0 +1,103 @@
+name: Docs
+
+# Build Sphinx (+ Doxygen) documentation and deploy to GitHub Pages on
+# pushes to main. Mirrors the build behavior of the old BuildDocs.yml but
+# replaces the tag-gated release-asset flow with a proper Pages deployment.
+
+on:
+# TODO: Uncomment once public
+#  push:
+#    branches:
+#      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build Sphinx docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgl1-mesa-dev \
+            libxinerama-dev \
+            libxcursor-dev \
+            libxrandr-dev \
+            libxi-dev \
+            ninja-build \
+            libboost-all-dev \
+            libgtest-dev \
+            libeigen3-dev \
+            doxygen
+
+      - name: Cache MuJoCo install tree
+        id: cache-mujoco
+        uses: actions/cache@v5
+        with:
+          path: /usr/local/mujoco-3.3.2
+          key: mujoco-3.3.2-${{ runner.os }}-${{ runner.arch }}
+
+      - name: Install MuJoCo
+        if: steps.cache-mujoco.outputs.cache-hit != 'true'
+        run: |
+          git clone https://github.com/deepmind/mujoco.git
+          cd mujoco && git checkout tags/3.3.2
+          cmake -S . -B build \
+            -DMUJOCO_BUILD_EXAMPLES=OFF \
+            -DMUJOCO_BUILD_SIMULATE=OFF \
+            -DMUJOCO_BUILD_TESTS=OFF \
+            -DBUILD_TESTING=OFF
+          sudo cmake --build build --target install -- -j$(nproc)
+
+      - name: Build Doxygen XML (Breathe input for Sphinx)
+        run: |
+          cmake -B build -S . -DBUILD_DOXYGEN=ON
+          cmake --build build --target docs -- -j$(nproc)
+          # Fail loudly if the XML index Sphinx/Breathe expects is missing.
+          test -f build/doc/doxygen/xml/index.xml \
+            || { echo "Doxygen XML not generated; Breathe will produce an empty API reference."; exit 1; }
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: python -m pip install .[doc]
+
+      - name: Build Sphinx documentation
+        run: |
+          cd doc
+          mkdir -p _build/html
+          sphinx-build -b html . _build/html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: doc/_build/html
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

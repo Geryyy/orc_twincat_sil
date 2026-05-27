@@ -1,0 +1,24 @@
+# Configuration for cmake-format (https://cmake-format.readthedocs.io)
+format:
+  line_width: 100
+  tab_size: 2
+  use_tabchars: false
+  separate_ctrl_name_with_space: false
+  separate_fn_name_with_space: false
+  dangle_parens: false
+  max_subgroups_hwrap: 2
+  max_pargs_hwrap: 6
+  enable_sort: true
+  autosort: false
+
+markup:
+  first_comment_is_literal: true
+
+lint:
+  # C0103 — variable naming: conflicts with CMake Find-module conventions
+  #   (e.g. mujoco_LIBRARY, mujoco_INCLUDE_DIR are the documented pattern).
+  # C0113 — "missing COMMENT in statement which allows it": purely
+  #   stylistic and noisy across the project.
+  #   C0307 — "bad indentation": cmake-format's output sometimes disagrees
+  #     with cmake-lint's expectation; the formatter is source of truth.
+  disabled_codes: ["C0103", "C0113", "C0307"]

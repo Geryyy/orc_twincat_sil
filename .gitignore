@@ -1,0 +1,23 @@
+IiwaControl/.vs/*
+
+*/cmake-build-*/
+/IiwaControl/IiwaControl/_Config
+/IiwaControl/IiwaControl/*.pdb
+/IiwaControl/IiwaControl/*.sys
+/IiwaControl/.engineering_servers
+/IiwaControl/IiwaControl/*.bak
+/IiwaControl/ARC_Measurement/VSSettings
+/IiwaControl/ARC_HMI/*.updates
+/IiwaControl/IiwaControl/TrialLicense.tclrs
+
+####################################################################
+# twincat
+#########
+datasets/
+data/
+**/.vscode
+**/.vs
+**/.vsm
+**/_Boot/
+**/_Deployment/
+**/_Repository

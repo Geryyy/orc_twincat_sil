@@ -1,0 +1,30 @@
+# Normalise line endings across platforms. Anything we treat as text is
+# checked in with LF regardless of the contributor's OS.
+* text=auto eol=lf
+# Explicit: shell scripts, CMake files, YAML, Python, C/C++ sources — all LF.
+*.sh       text eol=lf
+*.py       text eol=lf
+*.cmake    text eol=lf
+*.yml      text eol=lf
+*.yaml     text eol=lf
+*.toml     text eol=lf
+*.c        text eol=lf
+*.h        text eol=lf
+*.cpp      text eol=lf
+*.hpp      text eol=lf
+*.in       text eol=lf
+CMakeLists.txt text eol=lf
+# Binary assets — never line-ending-translate.
+*.mjb      binary
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.ico      binary
+*.pdf      binary
+*.whl      binary
+*.tar.gz   binary
+*.zip      binary
+# CSV data files in tests/data should not be EOL-mangled (some contain
+# exact floating-point fixtures that diffs should reflect literally).
+*.csv      binary
+models/presets/*.mjb filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,264 @@
+// FlatBuffers schema for ORC communication messages
+// Compile with: flatc --cpp --python orc_messages.fbs
+//
+// Joint vectors are represented as variadic [double] so the schema is
+// independent of robot DoF. The receiver template (FlatBufferDeserializer<DOF>)
+// validates size() == DOF at deserialize time.
+
+namespace orc.fb;
+
+// =============================================================================
+// Basic Types
+// =============================================================================
+
+// Pose vector (position + quaternion: x, y, z, qw, qx, qy, qz)
+struct PoseVector {
+    x: double;
+    y: double;
+    z: double;
+    qw: double;
+    qx: double;
+    qy: double;
+    qz: double;
+}
+
+// Cartesian vector (6-DOF: linear + angular velocity/acceleration)
+struct CartesianVector {
+    vx: double;
+    vy: double;
+    vz: double;
+    wx: double;
+    wy: double;
+    wz: double;
+}
+
+// =============================================================================
+// Trajectory Types
+// =============================================================================
+
+enum TrajectoryType : uint16 {
+    INVALID = 0,
+    STOP,
+    JOINTSPACE,
+    TASKSPACE,
+    NULLSPACE,
+    TOOLPARAM,
+    JOINT_CTR_PARAM,
+    CARTESIAN_CTR_PARAM,
+    JOINTSPACE_JERK,
+    TASKSPACE_JERK,
+    CARTESIAN_VELOCITY,
+    JOINTSPACE_VELOCITY,
+    DENSE_JOINTSPACE,
+    HYBRID_FORCE_MOTION
+}
+
+// Joint trajectory point (sparse, with interpolation)
+table JointTrajectoryPoint {
+    time_ns: int64;
+    position: [double];
+}
+
+// Dense joint trajectory point (with velocity, acceleration, feedforward torque)
+table DenseJointPoint {
+    time_ns: int64;
+    q: [double];
+    q_dot: [double];
+    q_dotdot: [double];
+    tau_ff: [double];
+}
+
+// Cartesian/Taskspace trajectory point
+table TaskspaceTrajectoryPoint {
+    time_ns: int64;
+    pose: PoseVector;
+}
+
+// =============================================================================
+// Controller Parameters
+// =============================================================================
+
+table JointCTParameter {
+    kp: [double];
+    kd: [double];
+    ki: [double];
+}
+
+table CartesianCTParameter {
+    kp_trans_x: double;
+    kp_trans_y: double;
+    kp_trans_z: double;
+    kd_trans_x: double;
+    kd_trans_y: double;
+    kd_trans_z: double;
+    kp_rot_x: double;
+    kp_rot_y: double;
+    kp_rot_z: double;
+    kd_rot_x: double;
+    kd_rot_y: double;
+    kd_rot_z: double;
+}
+
+// =============================================================================
+// Trajectory Messages
+// =============================================================================
+
+table JointTrajectory {
+    type: TrajectoryType = JOINTSPACE;
+    points: [JointTrajectoryPoint];
+}
+
+table DenseJointTrajectory {
+    type: TrajectoryType = DENSE_JOINTSPACE;
+    points: [DenseJointPoint];
+}
+
+table TaskspaceTrajectory {
+    type: TrajectoryType = TASKSPACE;
+    points: [TaskspaceTrajectoryPoint];
+}
+
+table NullspaceTrajectory {
+    type: TrajectoryType = NULLSPACE;
+    time_ns: int64;
+    q_nullspace: [double];
+}
+
+table JointCtrParamTrajectory {
+    type: TrajectoryType = JOINT_CTR_PARAM;
+    time_ns: int64;
+    param: JointCTParameter;
+}
+
+table CartesianCtrParamTrajectory {
+    type: TrajectoryType = CARTESIAN_CTR_PARAM;
+    time_ns: int64;
+    param: CartesianCTParameter;
+}
+
+table StopTrajectory {
+    type: TrajectoryType = STOP;
+}
+
+// =============================================================================
+// Velocity trajectories
+// =============================================================================
+
+// Cartesian velocity (6-DOF linear + angular) trajectory point
+table CartesianVelocityPoint {
+    time_ns: int64;
+    velocity: CartesianVector;
+}
+
+// Jointspace velocity trajectory point
+table JointVelocityPoint {
+    time_ns: int64;
+    velocity: [double];
+}
+
+table CartesianVelocityTrajectory {
+    type: TrajectoryType = CARTESIAN_VELOCITY;
+    points: [CartesianVelocityPoint];
+}
+
+table JointVelocityTrajectory {
+    type: TrajectoryType = JOINTSPACE_VELOCITY;
+    points: [JointVelocityPoint];
+}
+
+// =============================================================================
+// Hybrid force / motion trajectory
+// =============================================================================
+
+// Synchronized (pose, scalar-force) waypoint used by the hybrid force/motion
+// controller. The scalar is the commanded contact force along the z-axis of
+// the end-effector frame (see HybridForceMotionController).
+table HybridForceMotionPoint {
+    time_ns: int64;
+    pose: PoseVector;
+    force: double;
+}
+
+table HybridForceMotionTrajectory {
+    type: TrajectoryType = HYBRID_FORCE_MOTION;
+    points: [HybridForceMotionPoint];
+}
+
+// Union of all trajectory types for generic handling
+union TrajectoryData {
+    JointTrajectory,
+    DenseJointTrajectory,
+    TaskspaceTrajectory,
+    NullspaceTrajectory,
+    JointCtrParamTrajectory,
+    CartesianCtrParamTrajectory,
+    StopTrajectory,
+    CartesianVelocityTrajectory,
+    JointVelocityTrajectory,
+    HybridForceMotionTrajectory
+}
+
+// Generic trajectory message wrapper
+table TrajectoryMessage {
+    data: TrajectoryData;
+}
+
+// =============================================================================
+// Robot State
+// =============================================================================
+
+enum RobotStatus : uint8 {
+    DISABLED = 0,
+    ENABLE,
+    ENABLED,
+    DISABLE,
+    ERROR,
+    CLEARERROR
+}
+
+// Unified robot state for any DoF. q_d_ns / x_set / x_dot_set / x_dotdot_set
+// are first-class for every DoF (callers that don't use them write zeros).
+table RobotState {
+    time_ns: int64;
+    status: RobotStatus;
+    model_id: uint8;
+
+    // Actual joint states
+    q_act: [double];
+    q_dot_act: [double];
+    q_dotdot_act: [double];
+    tau: [double];
+
+    // Setpoints
+    q_set: [double];
+    q_dot_set: [double];
+    q_dotdot_set: [double];
+    x_set: PoseVector;
+    x_dot_set: CartesianVector;
+    x_dotdot_set: CartesianVector;
+    q_d_ns: [double];           // Nullspace configuration
+}
+
+// =============================================================================
+// UDP Message Wrapper (fits in single UDP packet)
+// =============================================================================
+
+table UdpMessage {
+    sequence_number: uint32;
+    timestamp_us: uint64;  // Microseconds since epoch
+    trajectory: TrajectoryMessage;
+}
+
+table UdpStateMessage {
+    sequence_number: uint32;
+    timestamp_us: uint64;
+    state: RobotState;
+}
+
+// Root types for serialization
+root_type TrajectoryMessage;
+
+// File identifier — bumped from "TRAJ" to "TRJ2" so any stale buffer fed
+// to the variadic-DoF readers fails verification cleanly instead of
+// misinterpreting a shifted union ordinal.
+file_identifier "TRJ2";

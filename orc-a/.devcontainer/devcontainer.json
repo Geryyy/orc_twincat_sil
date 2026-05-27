@@ -1,0 +1,39 @@
+{
+    "name": "orc-a",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "workspaceFolder": "/workspaces/orc-a",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/orc-a,type=bind",
+    "postCreateCommand": "bash .devcontainer/postCreate.sh",
+    "runArgs": [
+        "--net=host",
+        "--ipc=host",
+        "--env=DISPLAY=${localEnv:DISPLAY}",
+        "--env=LIBGL_ALWAYS_SOFTWARE=1",
+        "--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw"
+    ],
+    "mounts": [],
+    "remoteUser": "vscode",
+    "updateRemoteUserUID": true,
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-vscode.cpptools",
+                "ms-vscode.cmake-tools",
+                "twxs.cmake"
+            ],
+            "settings": {
+                "cmake.sourceDirectory": "${workspaceFolder}",
+                "cmake.buildDirectory": "${workspaceFolder}/build",
+                "cmake.configureArgs": [
+                    "-DBUILD_TESTS=ON",
+                    "-DBUILD_EXAMPLES=ON"
+                ],
+                "workbench.colorTheme": "Monokai",
+                "window.title": "[devcontainer] ${rootName}${separator}${activeEditorShort}"
+            }
+        }
+    }
+}

@@ -1,0 +1,63 @@
+name: Bug report
+description: Report a defect in ORC / orcpy
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug report. Please fill in as much
+        of the following as you can — it makes diagnosis much faster.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the unexpected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: |
+        Smallest code / command sequence that reproduces the issue. A link to a
+        branch or gist is fine.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: orc-version
+    attributes:
+      label: ORC version / commit
+      placeholder: "e.g. v0.1.0 or commit 6526351"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: "e.g. Ubuntu 24.04, Windows 11, macOS 14"
+    validations:
+      required: true
+  - type: input
+    id: compiler
+    attributes:
+      label: Compiler / Python version
+      placeholder: "e.g. gcc 13.2 / Python 3.12.3"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      render: shell
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Checks
+      options:
+        - label: I have searched existing issues for duplicates.
+          required: true

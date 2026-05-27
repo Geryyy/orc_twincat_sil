@@ -1,0 +1,14 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Allow downstream projects to locate bundled Findmujoco.cmake shipped with orc.
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
+
+find_dependency(Boost 1.71...1.83)
+find_dependency(mujoco 3.3.2 EXACT)
+find_dependency(Eigen3 3.4.0 NO_MODULE)
+
+include("${CMAKE_CURRENT_LIST_DIR}/orcTargets.cmake")
+
+check_required_components(orc)

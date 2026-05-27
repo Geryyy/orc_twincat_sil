@@ -1,0 +1,19 @@
+@INCLUDE_PATH          = @DOXYGEN_INPUT_DIR@
+
+PROJECT_NAME           = "orc"
+PROJECT_NUMBER         = "@PROJECT_VERSION@"
+
+OUTPUT_DIRECTORY       = @DOXYGEN_OUTPUT_DIR@
+GENERATE_XML           = YES
+GENERATE_HTML          = YES
+RECURSIVE              = YES
+
+INPUT                  = @DOXYGEN_INPUT_DIR@
+FILE_PATTERNS          = *.h *.hpp
+
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = NO
+
+QUIET                  = NO
+WARN_IF_UNDOCUMENTED   = YES

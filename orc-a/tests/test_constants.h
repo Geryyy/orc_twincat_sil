@@ -1,0 +1,2 @@
+#define NORM_THRESHOLD 0.05
+#define VALUE_THRESHOLD 1e-6

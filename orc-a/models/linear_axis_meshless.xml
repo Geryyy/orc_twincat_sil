@@ -1,0 +1,97 @@
+<mujoco model="Linear Axis">
+  <compiler angle="radian"/>
+
+  <option timestep="0.001" integrator="implicitfast" jacobian="dense">
+    <flag multiccd="enable"/>
+  </option>
+
+  <size nkey="1"/>
+
+  <visual>
+    <global azimuth="-120" elevation="-20"/>
+    <quality shadowsize="2048"/>
+    <headlight ambient="0.3 0.3 0.3" diffuse="0.6 0.6 0.6" specular="0.1 0.1 0.1"/>
+  </visual>
+
+  <statistic meansize="0.03" extent="0.3" center="0.3 0 0"/>
+
+  <default>
+    <default class="/"/>
+    <default class="lab/"/>
+    <default class="cage/main">
+      <general ctrlrange="0 1" biastype="affine" gainprm="2000" biasprm="0 -2000 -200"/>
+      <default class="cage/iiwa">
+        <material shininess="0.25"/>
+        <site size="0.001 0.005 0.005" group="4" rgba="1 0 0 1"/>
+        <general ctrlrange="0 0"/>
+      </default>
+      <default class="cage/slider"/>
+      <default class="cage/linaxis">
+        <material shininess="0.25"/>
+      </default>
+      <default class="cage/cage_class">
+        <material shininess="0.25"/>
+        <default class="cage/visual">
+          <geom type="mesh" contype="0" conaffinity="0" group="2" material="cage/gray"/>
+        </default>
+        <default class="cage/collision">
+          <geom group="0"/>
+        </default>
+      </default>
+    </default>
+  </default>
+
+  <asset>
+    <texture type="2d" name="cage/texplane" builtin="checker" mark="cross" rgb1="0.2 0.3 0.4" rgb2="0.1 0.15 0.2" markrgb="0.8 0.8 0.8" width="512" height="512"/>
+    <texture type="2d" name="cage/groundplane" builtin="checker" mark="edge" rgb1="1 1 1" rgb2="1 1 1" markrgb="1 1 1" width="300" height="300"/>
+    <material name="cage/metal" class="cage/main" rgba="0.58 0.58 0.58 1"/>
+    <material name="cage/green" class="cage/main" rgba="0 1 0 1"/>
+    <material name="cage/silicone" class="cage/main" rgba="0.1882 0.1882 0.1882 1"/>
+    <material name="cage/black" class="cage/main" rgba="0.149 0.149 0.149 1"/>
+    <material name="cage/wood" class="cage/main" rgba="0.56 0.37 0.29 1"/>
+    <material name="cage/gray" class="cage/cage_class" rgba="0.4 0.4 0.4 1"/>
+    <material name="cage/MatGnd" class="cage/main" specular="0.1" shininess="0.3" reflectance="0.1" rgba="0.1 0.1 0.1 0.7"/>
+    <material name="cage/alu" class="cage/linaxis" rgba="0.4 0.4 0.4 1"/>
+    <material name="cage/matplane" class="cage/main" texture="cage/texplane" texuniform="true" reflectance="0.3"/>
+    <material name="cage/groundplane" class="cage/main" texture="cage/groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+  </asset>
+
+  <worldbody>
+    <body name="ground">
+      <site name="ground_site_attach" class="/" pos="0 0 0"/>
+      <body name="lab/">
+        <geom name="lab/ground" class="lab/" size="0 0 1" type="plane"/>
+        <site name="lab/ground_attach" class="lab/" pos="0 0 0" size="0.01" rgba="1 0 0 1"/>
+        <light name="lab//unnamed_light_0" class="lab/" pos="0 0 1.5" dir="0 0 -1" directional="true"/>
+      </body>
+    </body>
+    <body name="linear_axis">
+      <site name="linear_axis_site_attach" class="/" pos="0 0 0"/>
+      <body name="cage/">
+        <body name="cage//unnamed_body_0" quat="0.707107 0.707107 0 0">
+          <body name="cage/linear_axis_right" childclass="cage/linaxis" pos="-0.4755 0.1262 -0.879" quat="0.707107 0 0.707107 0">
+            <inertial pos="0 0 0" mass="100" diaginertia="166667 166667 166667"/>
+            <joint name="cage/x_right" class="cage/slider" pos="0 0 0" axis="-1 0 0" type="slide" ref="0.193" range="0.41 1.26"/>
+            <geom name="cage/collision_linear_axis_right" size="0.1 0.07 1" pos="0 0 0.95" type="box" group="0" rgba="0.8 0.6 0.4 1"/>
+            <body name="cage/offset_zeroing_right" pos="0 0 1.35">
+              <body name="cage/robot_plate_right" pos="0 0.0468 0.128" quat="0 0 1 0">
+                <inertial pos="0 0 0" mass="100" diaginertia="166667 166667 166667"/>
+                <joint name="cage/y_right" class="cage/slider" pos="0 0 0" axis="0 0 1" type="slide" ref="0.4415" range="0.26 1.665"/>
+                <geom name="cage/collision_robot_plate_right" size="0.15 0.02 0.15" pos="0 0.03 0" type="box" group="0" rgba="0.8 0.6 0.4 1"/>
+                <body name="cage/base_right" childclass="cage/iiwa" pos="0 0.0447 0" quat="0.5 -0.5 -0.5 -0.5">
+                  <site name="cage/robot_attach_right" pos="0 0 0" size="0.01" group="0"/>
+                  <site name="end_effector"/>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <general name="cage/actuatorY_right" class="cage/slider" joint="cage/y_right" ctrlrange="-400 400" biasprm="0 0 -2000"/>
+    <general name="cage/actuatorX_right" class="cage/slider" joint="cage/x_right" ctrlrange="-400 400" biasprm="0 0 -2000"/>
+  </actuator>
+</mujoco>

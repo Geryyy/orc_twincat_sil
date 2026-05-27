@@ -1,0 +1,106 @@
+[build-system]
+requires = [
+    "scikit-build-core>=0.12.2",
+    "nanobind>=2.12.0",
+    "mujoco==3.3.2"
+]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "orcpy"
+version = "0.2.0dev"
+description = "orcpy: Python wrapper library for ORC (Open Robot Control)"
+readme = "README.md"
+license = { text = "BSD-3-Clause" }
+authors = [
+    { name = "anonymous", email = "anonymous@anonymous.com" },
+]
+keywords = [
+    "robotics",
+    "robot-control",
+    "mujoco",
+    "trajectory",
+    "manipulator",
+    "kuka-iiwa",
+    "kinova",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "scipy",
+    "mujoco==3.3.2",
+    "orjson"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: C++",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+[project.urls]
+Homepage = "https://github.com/anonymous"
+Documentation = "anonymous"
+Repository = "anonymous"
+Issues = "anonymous"
+Changelog = "anonymous"
+
+[project.optional-dependencies]
+doc = ["sphinx", "sphinx-autobuild", "sphinx-copybutton", "breathe", "furo"]
+test = ["pytest"]
+dev = ["pytest", "ruff", "black", "pre-commit"]
+examples = ["matplotlib"]
+sysid = ["mujoco-sysid"]
+
+
+[tool.scikit-build]
+wheel.expand-macos-universal-tags = true
+minimum-version = "build-system.requires"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["build", "dist", "_skbuild", ".venv", "venv", "third_party"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+# E501 is handled by the formatter (black / ruff-format).
+ignore = ["E501", "RUF001", "RUF002", "RUF003", "E722"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "F403"]
+"tests/**/*.py" = ["B011", "B017", "F841"]
+# Example scripts prioritise readability over ruff's stylistic preferences.
+"examples/**/*.py" = ["B023", "E712", "E731", "F821", "F841", "RUF005", "RUF013", "SIM108"]
+"models/generation_scripts/**/*.py" = ["SIM108"]
+"python/robots/Kinova.py" = ["RUF012"]
+"python/robots/Iiwa.py" = ["RUF013"]
+"python/robots/Robot9DOF.py" = ["RUF013"]
+"python/robots/Robot.py" = ["B024", "F841", "SIM108"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+extend-exclude = '''
+/(
+    \.venv
+  | venv
+  | build
+  | dist
+  | _skbuild
+  | third_party
+)/
+'''

@@ -1,0 +1,74 @@
+
+[tool.cibuildwheel]
+# musllinux is intentionally skipped: MuJoCo/Boost toolchain on Alpine is not
+# exercised in CI. Revisit once we have a musllinux test image.
+skip = ["*-win32", "*-musllinux*"]
+
+# Exercise the built wheel on install. Keep the test subset small so CI stays
+# fast; the static + runtime-light tests in tests/python cover bindings health.
+test-extras = ["test"]
+test-command = "pytest {project}/tests/python -q"
+
+[tool.cibuildwheel.linux]
+before-all = [
+    # Install system dependencies
+    'rm /usr/local/bin/cmake && rm -rf /usr/local/share/cmake* && rm -rf /usr/local/lib/cmake',
+    'dnf install -y libicu-devel bzip2-devel gcc-c++ make wget cmake',
+    # Install Eigen3
+    'cd /tmp',
+    "git clone https://gitlab.com/libeigen/eigen.git",
+    "cd eigen && git checkout tags/3.4.0",
+    "cmake -S . -B build",
+    "cmake --build build --target install -j$(nproc)",
+    # Install Mujoco
+    'dnf install -y mesa-libGL-devel libXinerama-devel libXcursor-devel libXrandr-devel libXi-devel ninja-build',
+    'cd /tmp',
+    'git clone https://github.com/deepmind/mujoco.git',
+    'cd mujoco && git checkout tags/3.3.2',
+    "cmake -S . -B build -DMUJOCO_BUILD_EXAMPLES=OFF -DMUJOCO_BUILD_SIMULATE=OFF -DMUJOCO_BUILD_TESTS=OFF -DBUILD_TESTING=OFF",
+    "cmake --build build --target install -j$(nproc)",
+    # Install Boost
+    'cd /tmp',
+    'wget https://archives.boost.io/release/1.83.0/source/boost_1_83_0.tar.bz2',
+    'tar --bzip2 -xf boost_1_83_0.tar.bz2',
+    'cd boost_1_83_0',
+    './bootstrap.sh --prefix=/usr/local',
+    './b2 -j$(nproc) install --with-system --with-thread -d1',
+]
+archs = 'x86_64'
+build = 'cp{310,311,312,313}-*'
+manylinux-x86_64-image = 'manylinux_2_28'
+
+[tool.cibuildwheel.windows]
+before-all = [
+    # Install Eigen3
+    "cd C:/",
+    "git clone https://gitlab.com/libeigen/eigen.git",
+    "cd eigen && git checkout tags/3.4.0",
+    "cmake -S . -B build",
+    "cmake --build build --target install --parallel",
+
+    # Install Mujoco
+    "cd C:/",
+    "git clone https://github.com/deepmind/mujoco.git",
+    "cd mujoco && git checkout tags/3.3.2",
+    "cmake -S . -B build -DMUJOCO_BUILD_EXAMPLES=OFF -DMUJOCO_BUILD_SIMULATE=OFF -DMUJOCO_BUILD_TESTS=OFF -DBUILD_TESTING=OFF",
+    "cmake --build build --target install --config Release --parallel",
+
+    # Install Boost
+    "cd C:/",
+    "curl -L -o boost_1_83_0.tar.gz https://archives.boost.io/release/1.83.0/source/boost_1_83_0.tar.gz",
+    "tar -xzf boost_1_83_0.tar.gz",
+    "cd boost_1_83_0",
+    "bootstrap.bat",
+    "b2 address-model=64 runtime-link=shared --prefix=C:/boost --with-system --with-thread install --parallel -d1",
+]
+build = 'cp{310,311,312,313}-*'
+archs = "AMD64"
+
+[tool.cibuildwheel.windows.environment]
+PATH = "C:/Program Files/mujoco/bin;${PATH}"
+BOOST_ROOT = "C:/boost"
+BOOST_INCLUDEDIR = "C:/boost/include/boost-1_83"
+BOOST_LIBRARYDIR = "C:/boost/lib"
+CMAKE_PREFIX_PATH = "C:/boost"

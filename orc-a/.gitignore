@@ -1,0 +1,89 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+
+# Build
+build
+build_*
+build.*
+_archive
+build-ctest/
+Testing/
+
+# Vscode
+.vscode
+
+# Python
+.venv
+__pycache__/
+
+# Test output artifacts
+*.csv
+
+# PyCharm
+.idea/**
+
+# Clangd
+.cache
+.clangd
+
+# Mujoco
+MUJOCO_LOG.TXT
+
+# Sphinx
+doc/_build/
+doc/_templates
+*.doctree
+
+# Code coverage
+.dev_util/code_coverage
+
+# MJB presets — large binaries are tracked via Git LFS (see .gitattributes).
+# Only the .gitkeep marker and the .mjb files are kept; everything else
+# (e.g. transient generation by-products) is ignored.
+models/presets/**
+!models/presets/.gitkeep
+!models/presets/*.mjb
+
+# Paper working directory (lives on feat/paper, not here)
+__RAP__ORC_Paper/
+
+# Regenerated sim output for the lemniscate experiment (~7 MB).
+# Rebuild with examples/python/orc_paper_experiments/_headless_sim.py.
+examples/python/orc_paper_experiments/kinova_leminscate_sim.csv
+
+# LaTeX artefacts next to the standalone figure
+examples/python/orc_paper_experiments/*.aux
+examples/python/orc_paper_experiments/*.log
+
+
+# Tools
+.claude/

@@ -1,0 +1,282 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.22" ClassName="CDevEtherCATDef" SubType="111">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{18071995-0000-0000-0000-002000000008}" IecBaseType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..0] OF BYTE</Name>
+			<BitSize>8</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>1</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{18071995-0000-0000-0000-00200000000F}" IecBaseType="true" BitType="true" AutoDeleteType="true" HideSubItems="true">ARRAY [0..14] OF BIT</Name>
+			<BitSize>15</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000010}">BIT</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>15</Elements>
+			</ArrayInfo>
+		</DataType>
+	</DataTypes>
+	<ImageDatas>
+		<ImageData Id="1000">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080808080808080808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000bfff00bfffc0c0c0808080c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000bfff00bfffc0c0c0808080c0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000bfff00bfffc0c0c0808080c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000bfff00bfffc0c0c0808080c0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000bfff00bfffc0c0c0808080c0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffc0c0c000bfff00bfffc0c0c0808080c0c0c0000000c0c0c0000000808080007fff007fff007fff007fff007fffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0c0c0c0c0c0c0c0c0c0808080007fff007fff007fff007fff007fffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0c0c0c0c0c0c0c0c0c0808080007fff007fff007fff007fff007fffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0008000c0c0c0008000808080007fff007fff007fff007fff007fffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080c0c0c0c0c0c0c0c0c0c0c0c0808080007fff007fff007fff007fff007fff</ImageData>
+		<ImageData Id="1001">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffecececc8c7c7eeeeeefefefefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefefef1f1f0bebebc918f8fa7a6a5f9f9f9fffffffffffffffffffffffffffffffffffffffffffffffffdfdfdf4f4f3dcdddad2d3cfc4c5c2bdbebc9f9f9ef8f8f7ffffffffffffffffffffffffffffffffffffebeaeaededede3e3e1d0d1cdd1d2ced3d4d0bfc1beaaacaacbcccafcfcfcffffffffffffffffffffffffffffffffffffb4b2b1b2b2b1d3d4d0d1d2ced1d2ced4d5d0b8baba8d9492b6bcb6fbfbfaffffffffffffffffffffffffffffffffffffb3b1b0b4b4b1d3d4d0d1d2ced1d2ced5d5d1afb2b27a8180a3a7a2f9faf9ffffffffffffffffffffffffffffffffffffb3b1b0bbbab8d3d4d0d1d2ced1d2ced5d5d1b1b3b1777b7c9b9c9bf9f9f9ffffffffffffffffffffffffffffffffffffb3b1b0bbbab8d3d4d0d1d2ced1d2ced3d4d0c9cac6b9b8b4bfbfbcfafbfaffffffffffffffffffffffffffffffffffffb3b1b0bbbab8d3d4d0d1d2ced1d2cecbcec9c0c3bfcbcac5dad3cefcfcfbffffffffffffffffffffffffffffffffffffb3b1b0b3b3b0d4d5d1c9cac7aeafac939c9895a398b1b8ade7e9e7fefefeffffffffffffffffffffffffffffffffffffb3b1b0aeadabc1c2bfa2a5a16f716d7b7a7ac3c4c0f0f1efffffffffffffffffffffffffffffffffffffffffffffffffb1afaeb5b5b5b3b4b2a3a89fb9beb6e4e4e4fefefeffffffffffffffffffffffffffffffffffffffffffffffffffffffa7a5a5a3a19ec5c4c4eeefeefbfcfbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5f5f5bfbdb9ebebebffffffffffffffffffffffffffffffffffffffffffffffffffffff</ImageData>
+	</ImageDatas>
+	<Device Id="4" Disabled="true" DevType="111" DevFlags="#x0003" AmsPort="28676" AmsNetId="192.168.178.40.5.1" RemoteName="Gerät 4 (EtherCAT)" InfoImageId="6">
+		<Name>__FILENAME__</Name>
+		<AddressInfo>
+			<Pnp>
+				<DeviceDesc>Ethernet P3 (TwinCAT-Intel PCI Ethernet Adapter (Gi</DeviceDesc>
+				<DeviceName>\DEVICE\{C2EA6482-F186-4ED9-A36F-505CDDCA1C0C}</DeviceName>
+				<DeviceData>0001052c726a</DeviceData>
+			</Pnp>
+		</AddressInfo>
+		<Image Id="5" AddrType="9" ImageType="3">
+			<Name>Prozessabbild</Name>
+		</Image>
+		<Box Id="5" BoxType="9099">
+			<Name>Term 1 (EK1814)</Name>
+			<ImageId>1000</ImageId>
+			<EtherCAT SlaveType="1" PdiType="#x0d04" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x07162c52" RevisionNo="#x00130000" RepeatSupport="true" CheckRevisionNoType="3" PortPhys="305" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EK1814 EtherCAT IO-Coupler  (1A E-Bus, 4 Ch. Dig. In, 3ms, 4 Ch. Dig. Out 24V, 0,5A)" Desc="EK1814" PortABoxInfo="#x00ffffff">
+				<SyncMan>010f01004400010003000000010001000100010f44090000</SyncMan>
+				<SyncMan>001001000000010004000000010001000100001000010000</SyncMan>
+				<Fmmu>0000000000000000010f00020100000001000000000000000000000000000000</Fmmu>
+				<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
+				<Pdo Name="Channel 1" Index="#x1a00" Flags="#x0011" SyncMan="1">
+					<Entry Name="Input" Index="#x6000" Sub="#x01">
+						<Type>BIT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Channel 2" Index="#x1a01" Flags="#x0011" SyncMan="1">
+					<Entry Name="Input" Index="#x6010" Sub="#x01">
+						<Type>BIT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Channel 3" Index="#x1a02" Flags="#x0011" SyncMan="1">
+					<Entry Name="Input" Index="#x6020" Sub="#x01">
+						<Type>BIT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Channel 4" Index="#x1a03" Flags="#x0011" SyncMan="1">
+					<Entry Name="Input" Index="#x6030" Sub="#x01">
+						<Type>BIT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Channel 5" Index="#x1608" InOut="1" Flags="#x0011" SyncMan="0">
+					<Entry Name="Output" Index="#x7080" Sub="#x01">
+						<Type>BIT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Channel 6" Index="#x1609" InOut="1" Flags="#x0011" SyncMan="0">
+					<Entry Name="Output" Index="#x7090" Sub="#x01">
+						<Type>BIT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Channel 7" Index="#x160a" InOut="1" Flags="#x0011" SyncMan="0">
+					<Entry Name="Output" Index="#x70a0" Sub="#x01">
+						<Type>BIT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Channel 8" Index="#x160b" InOut="1" Flags="#x0011" SyncMan="0">
+					<Entry Name="Output" Index="#x70b0" Sub="#x01">
+						<Type>BIT</Type>
+					</Entry>
+				</Pdo>
+			</EtherCAT>
+		</Box>
+		<Box Id="7" BoxType="9099" BoxFlags="#x00000020">
+			<Name>X</Name>
+			<ImageId>1001</ImageId>
+			<EtherCAT SlaveType="2" PdiType="#x0c80" MboxDataLinkLayer="true" StateMBoxPolling="true" UnsupportedFrmw="true" CycleMBoxPollingTime="0" CoeType="47" EoeType="1" FoeType="1" VendorId="#x0000001d" ProductCode="#x007b1a95" RevisionNo="#x00000006" InfoDataAddr="true" InfoDataSoeDS401="true" InfoDataDcTimes="true" PortPhys="17" IdentificationAdo="308" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="CMMT-AS" Desc="CMMT-AS" PortABoxInfo="#x02000005">
+				<SyncMan>001200022600010001000000220000020002001226010000</SyncMan>
+				<SyncMan>001400022200010002000000220000020002001422010000</SyncMan>
+				<SyncMan>001018006400010003000000000000000000001064010000</SyncMan>
+				<SyncMan>001112002000010004000000000000000000001120010000</SyncMan>
+				<Fmmu>0000000000000000001000020100000001000000000000000000000000000000</Fmmu>
+				<Fmmu>0000000000000000001100010100000002000000000000000000000000000000</Fmmu>
+				<Fmmu>00000000000000000d0800010100000003000000000000000000000000000000</Fmmu>
+				<SwitchPortData>00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</SwitchPortData>
+				<BootStrapData>0010000400180004</BootStrapData>
+				<DcData>0003000000000000000000000000000001000000000000000000000000000000</DcData>
+				<DcMode>446353796e6300000000000000000000444320666f722073796e6368726f6e697a6174696f6e00000000000000000000000000000000000000000000000000030100000000000000000000000000000000000000000000000000000000000000</DcMode>
+				<DcMode>44634f66660000000000000000000000444320756e757365640000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000</DcMode>
+				<Pdo Name="Inputs" Index="#x1a00" Flags="#x0000" SyncMan="3">
+					<Entry Name="Statusword" Index="#x6041">
+						<Type>UINT</Type>
+					</Entry>
+					<Entry Name="Modes of operation display" Index="#x6061">
+						<Type>SINT</Type>
+					</Entry>
+					<Entry Name="Position actual value" Index="#x6064">
+						<Type>DINT</Type>
+					</Entry>
+					<Entry Name="Velocity actual value" Index="#x606c">
+						<Type>DINT</Type>
+					</Entry>
+					<Entry Name="Torque actual value" Index="#x6077">
+						<Type>INT</Type>
+					</Entry>
+					<Entry Name="Torque_Gear" Index="#x2157" Sub="#x02">
+						<Type>REAL</Type>
+					</Entry>
+					<Entry>
+						<Type GUID="{18071995-0000-0000-0000-002000000008}">ARRAY [0..0] OF BYTE</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Diag History" Index="#x1af0" Flags="#x0010">
+					<Entry Name="New Message Available" Index="#x10f3" Sub="#x04">
+						<Type>BIT</Type>
+					</Entry>
+					<Entry>
+						<Type GUID="{18071995-0000-0000-0000-00200000000F}">ARRAY [0..14] OF BIT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Timestamp" Index="#x1af1" Flags="#x0010">
+					<Entry Name="Timestamp" Index="#x10f8">
+						<Type>ULINT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Outputs" Index="#x1600" InOut="1" Flags="#x0000" SyncMan="2">
+					<Entry Name="Controlword" Index="#x6040">
+						<Type>UINT</Type>
+					</Entry>
+					<Entry Name="Modes of operation" Index="#x6060">
+						<Type>SINT</Type>
+					</Entry>
+					<Entry Name="Target position" Index="#x607a">
+						<Type>DINT</Type>
+					</Entry>
+					<Entry Name="Profile velocity" Index="#x6081">
+						<Type>UDINT</Type>
+					</Entry>
+					<Entry Name="Target velocity" Index="#x60ff">
+						<Type>DINT</Type>
+					</Entry>
+					<Entry Name="Target torque" Index="#x6071">
+						<Type>INT</Type>
+					</Entry>
+					<Entry Name="Velocity offset" Index="#x60b1">
+						<Type>DINT</Type>
+					</Entry>
+					<Entry Name="Torque offset" Index="#x60b2">
+						<Type>INT</Type>
+					</Entry>
+					<Entry>
+						<Type GUID="{18071995-0000-0000-0000-002000000008}">ARRAY [0..0] OF BYTE</Type>
+					</Entry>
+				</Pdo>
+				<CoeProfile ProfileNo="402"/>
+			</EtherCAT>
+		</Box>
+		<Box Id="8" BoxType="9099" BoxFlags="#x00000020">
+			<Name>Y</Name>
+			<ImageId>1001</ImageId>
+			<EtherCAT SlaveType="2" PdiType="#x0c80" MboxDataLinkLayer="true" StateMBoxPolling="true" UnsupportedFrmw="true" CycleMBoxPollingTime="0" CoeType="47" EoeType="1" FoeType="1" VendorId="#x0000001d" ProductCode="#x007b1a95" RevisionNo="#x00000006" InfoDataAddr="true" InfoDataSoeDS401="true" InfoDataDcTimes="true" PortPhys="17" IdentificationAdo="308" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="CMMT-AS" Desc="CMMT-AS" PortABoxInfo="#x01000007">
+				<SyncMan>001200022600010001000000220000020002001226010000</SyncMan>
+				<SyncMan>001400022200010002000000220000020002001422010000</SyncMan>
+				<SyncMan>001018006400010003000000000000000000001064010000</SyncMan>
+				<SyncMan>00110e002000010004000000000000000000001120010000</SyncMan>
+				<Fmmu>0000000000000000001000020100000001000000000000000000000000000000</Fmmu>
+				<Fmmu>0000000000000000001100010100000002000000000000000000000000000000</Fmmu>
+				<Fmmu>00000000000000000d0800010100000003000000000000000000000000000000</Fmmu>
+				<SwitchPortData>00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</SwitchPortData>
+				<BootStrapData>0010000400180004</BootStrapData>
+				<DcData>0003000000000000000000000000000001000000000000000000000000000000</DcData>
+				<DcMode>446353796e6300000000000000000000444320666f722073796e6368726f6e697a6174696f6e00000000000000000000000000000000000000000000000000030100000000000000000000000000000000000000000000000000000000000000</DcMode>
+				<DcMode>44634f66660000000000000000000000444320756e757365640000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000</DcMode>
+				<Pdo Name="Inputs" Index="#x1a00" Flags="#x0000" SyncMan="3">
+					<Entry Name="Statusword" Index="#x6041">
+						<Type>UINT</Type>
+					</Entry>
+					<Entry Name="Modes of operation display" Index="#x6061">
+						<Type>SINT</Type>
+					</Entry>
+					<Entry Name="Position actual value" Index="#x6064">
+						<Type>DINT</Type>
+					</Entry>
+					<Entry Name="Velocity actual value" Index="#x606c">
+						<Type>DINT</Type>
+					</Entry>
+					<Entry Name="Torque actual value" Index="#x6077">
+						<Type>INT</Type>
+					</Entry>
+					<Entry>
+						<Type GUID="{18071995-0000-0000-0000-002000000008}">ARRAY [0..0] OF BYTE</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Diag History" Index="#x1af0" Flags="#x0010">
+					<Entry Name="New Message Available" Index="#x10f3" Sub="#x04">
+						<Type>BIT</Type>
+					</Entry>
+					<Entry>
+						<Type GUID="{18071995-0000-0000-0000-00200000000F}">ARRAY [0..14] OF BIT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Timestamp" Index="#x1af1" Flags="#x0010">
+					<Entry Name="Timestamp" Index="#x10f8">
+						<Type>ULINT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="Outputs" Index="#x1600" InOut="1" Flags="#x0000" SyncMan="2">
+					<Entry Name="Controlword" Index="#x6040">
+						<Type>UINT</Type>
+					</Entry>
+					<Entry Name="Modes of operation" Index="#x6060">
+						<Type>SINT</Type>
+					</Entry>
+					<Entry Name="Target position" Index="#x607a">
+						<Type>DINT</Type>
+					</Entry>
+					<Entry Name="Profile velocity" Index="#x6081">
+						<Type>UDINT</Type>
+					</Entry>
+					<Entry Name="Target velocity" Index="#x60ff">
+						<Type>DINT</Type>
+					</Entry>
+					<Entry Name="Target torque" Index="#x6071">
+						<Type>INT</Type>
+					</Entry>
+					<Entry Name="Velocity offset" Index="#x60b1">
+						<Type>DINT</Type>
+					</Entry>
+					<Entry Name="Torque offset" Index="#x60b2">
+						<Type>INT</Type>
+					</Entry>
+					<Entry>
+						<Type GUID="{18071995-0000-0000-0000-002000000008}">ARRAY [0..0] OF BYTE</Type>
+					</Entry>
+				</Pdo>
+				<CoeProfile ProfileNo="402"/>
+			</EtherCAT>
+		</Box>
+		<EtherCAT DcSyncMode="2" EnableVirtualSwitch="true" MaxSwitchPorts="3" MaxSwitchFrames="140"/>
+	</Device>
+	<Mappings>
+		<OwnerA Name="__THIS__">
+			<OwnerB Name="TIXC^tripod_interface_module^tripod_interface_module_Obj1 (tripod_interface_module)">
+				<Link VarA="X^Inputs^Modes of operation display" VarB="MotorcontrollerInput^Motorcontroller1Input^Mode_Of_Operation_display"/>
+				<Link VarA="X^Inputs^Position actual value" VarB="MotorcontrollerInput^Motorcontroller1Input^Position_Actual_Value"/>
+				<Link VarA="X^Inputs^Statusword" VarB="MotorcontrollerInput^Motorcontroller1Input^Statusword"/>
+				<Link VarA="X^Inputs^Torque actual value" VarB="MotorcontrollerInput^Motorcontroller1Input^torque_actual_value"/>
+				<Link VarA="X^Inputs^Velocity actual value" VarB="MotorcontrollerInput^Motorcontroller1Input^velocity_actual_value"/>
+				<Link VarA="X^Outputs^Controlword" VarB="MotorcontrollerOutput^Motorcontroller1Output^Controlword"/>
+				<Link VarA="X^Outputs^Modes of operation" VarB="MotorcontrollerOutput^Motorcontroller1Output^Mode_Of_Operation"/>
+				<Link VarA="X^Outputs^Target position" VarB="MotorcontrollerOutput^Motorcontroller1Output^target_position"/>
+				<Link VarA="X^Outputs^Target torque" VarB="MotorcontrollerOutput^Motorcontroller1Output^target_torque"/>
+				<Link VarA="X^Outputs^Target velocity" VarB="MotorcontrollerOutput^Motorcontroller1Output^target_velocity"/>
+				<Link VarA="Y^Inputs^Modes of operation display" VarB="MotorcontrollerInput^Motorcontroller2Input^Mode_Of_Operation_display"/>
+				<Link VarA="Y^Inputs^Position actual value" VarB="MotorcontrollerInput^Motorcontroller2Input^Position_Actual_Value"/>
+				<Link VarA="Y^Inputs^Statusword" VarB="MotorcontrollerInput^Motorcontroller2Input^Statusword"/>
+				<Link VarA="Y^Inputs^Torque actual value" VarB="MotorcontrollerInput^Motorcontroller2Input^torque_actual_value"/>
+				<Link VarA="Y^Inputs^Velocity actual value" VarB="MotorcontrollerInput^Motorcontroller2Input^velocity_actual_value"/>
+				<Link VarA="Y^Outputs^Controlword" VarB="MotorcontrollerOutput^Motorcontroller2Output^Controlword"/>
+				<Link VarA="Y^Outputs^Modes of operation" VarB="MotorcontrollerOutput^Motorcontroller2Output^Mode_Of_Operation"/>
+				<Link VarA="Y^Outputs^Target position" VarB="MotorcontrollerOutput^Motorcontroller2Output^target_position"/>
+				<Link VarA="Y^Outputs^Target torque" VarB="MotorcontrollerOutput^Motorcontroller2Output^target_torque"/>
+				<Link VarA="Y^Outputs^Target velocity" VarB="MotorcontrollerOutput^Motorcontroller2Output^target_velocity"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
+</TcSmItem>

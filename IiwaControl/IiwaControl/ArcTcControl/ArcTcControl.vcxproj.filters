@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{2b06c077-ff83-4ec7-917d-a81f26a5b594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{e3f19da1-5399-44da-99af-161917a471df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TwinCAT UM Files">
+      <UniqueIdentifier>{b7bc5fe1-5dd9-4226-abdf-818ed58e9b7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TwinCAT RT Files">
+      <UniqueIdentifier>{ef951b91-bf4b-42c9-9fa1-e9e95888a960}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TwinCAT OS Files">
+      <UniqueIdentifier>{096d3d22-b097-4c50-a58e-8b6c1bea8605}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TMC Files">
+      <UniqueIdentifier>{73917f90-27ad-46a4-8247-633df1b5b686}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\mujoco_tc">
+      <UniqueIdentifier>{fb50a6f9-6ad6-4e2a-baf9-7dde2726ec0a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TcPch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcTcControlClassFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcTcControlInterfaces.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcTcControlServices.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcTcControlCtrl.h">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcTcControlDriver.h">
+      <Filter>TwinCAT RT Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TcPch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcTcControlClassFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcTcControlCtrl.cpp">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcTcControlW32.cpp">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcTcControlDriver.cpp">
+      <Filter>TwinCAT RT Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcTcControlMain.cpp">
+      <Filter>TwinCAT OS Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\include\mujoco_tc\engine_collision_convex_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\include\mujoco_tc\engine_collision_box_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_callback.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_collision_driver_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_collision_primitive_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_core_constraint_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_core_smooth_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_forward_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_io_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_name_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_passive_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_support_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_blas_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_misc_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_solve_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_sparse_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_spatial_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\mujoco_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\mujoco_tc_calculations.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="eigen_tc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\orc-a\src\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ArcTcControl.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ArcTcControlW32.rc">
+      <Filter>TwinCAT UM Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ArcTcControlW32.def">
+      <Filter>TwinCAT UM Files</Filter>
+    </None>
+    <None Include="ArcTcControl.tmc">
+      <Filter>TMC Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="ArcTcControlW32.idl">
+      <Filter>TwinCAT UM Files</Filter>
+    </Midl>
+  </ItemGroup>
+</Project>

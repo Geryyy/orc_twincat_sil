@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "OpenRobotControl (ORC) — Unified Simulation and Real-Time Control for Manipulators"
+abstract: >-
+  A modular C++ / Python framework for robot control, providing trajectory
+  generation, interpolation, controllers, and UDP communication utilities
+  for research and industrial robot arms. 
+type: software
+authors:
+  - family-names: anonymous
+    given-names: anonymous
+    email: anonymous@anonymous.com
+    affiliation: "anonymous"
+contact:
+  - family-names: anonymous
+    given-names: anonymous
+    email: anonymous@anonymous.com
+    affiliation: "anonymous"
+repository-code: "https://github.com/anonymous/open-robot-control"
+license: BSD-3-Clause
+keywords:
+  - robotics
+  - robot-control
+  - trajectory-generation
+  - impedance-control
+  - hybrid-force-motion
+  - cpp
+  - python
+# Update on release:
+# version: "0.1.0"
+# date-released: "2026-05-13"
+# doi: "10.5281/zenodo.XXXXXXX"
