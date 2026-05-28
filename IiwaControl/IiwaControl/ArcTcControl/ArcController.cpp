@@ -178,7 +178,7 @@ HRESULT CArcController::SetObjStatePS(PTComInitDataHdr pInitData)
 	// ------------------- MUJOCO END ----------------------
 	
 	orc::log::start_logging_twincat(m_TraceLevelMax, &m_Trace);
-	m_Trace.Log(tlAlways, FLEAVEA "ARC initialized!", hr);
+	m_Trace.Log(tlAlways, FLEAVEA "ORC initialized!", hr);
 	m_Trace.Log(tlVerbose, FLEAVEA "hr=0x%08x", hr);
 	return hr;
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TcModuleClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2009/05/TcModuleClass">
+  <Vendor>
+    <Name>C++ Module Vendor</Name>
+  </Vendor>
+  <DataTypes ><DataType><Name GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Name><BitSize>448</BitSize><SubItem><Name>Values</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>7</Elements></ArrayInfo><BitSize>448</BitSize><BitOffs>0</BitOffs></SubItem><Hides><Hide GUID="{0822AD77-4119-4C86-8375-B6841BB83D41}" /><Hide GUID="{51696A3A-A97B-440E-966D-C21D4FFEE6BE}" /><Hide GUID="{5D9DCCE9-37BA-4FA8-B0E0-2E8E6EFCE8FE}" /><Hide GUID="{786EC6C1-D1F7-45C1-93FC-98398C725739}" /><Hide GUID="{54DFF67E-5B81-483E-8FE7-813C352DE903}" /><Hide GUID="{AF01559F-67F9-4F2E-8E90-45B2B3057FD1}" /><Hide GUID="{77095CD1-867F-43E5-A6C1-FC1B210E6A60}" /><Hide GUID="{1EC5996C-C82F-4635-A3FA-47FC71D27B40}" /><Hide GUID="{C548D0DB-E9E5-4009-A9B6-A02882E5E6D3}" /><Hide GUID="{E451BC88-E750-4AE4-B108-168F6D350714}" /><Hide GUID="{F7EDCE3A-569F-4D8C-9790-031C8B4B24E4}" /></Hides></DataType></DataTypes>
+  <Groups>
+    <Group SortOrder="701">
+      <Name>C++</Name>
+      <DisplayName>C++ Modules</DisplayName>
+    </Group>
+  </Groups>
+  <Modules>
+    <Module GUID="{cb1245e5-8c1f-4bcf-ad57-7e0ef900857c}" Group="C++">
+      <Name>RobotSim</Name>
+      <CLSID ClassFactory="RobotSim">{cb1245e5-8c1f-4bcf-ad57-7e0ef900857c}</CLSID>
+      <Licenses>
+        <License>
+          <LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+          <Comment>TC3 C++</Comment>
+        </License>
+      </Licenses>
+      <InitSequence>PSO</InitSequence>
+      <Contexts>
+        <Context>
+          <Id>1</Id>
+        </Context>
+      </Contexts>
+      <Interfaces>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+        </Interface>
+        <Interface>
+          <Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+        </Interface>
+      </Interfaces>
+      <Parameters>
+        <Parameter HideParameter="true">
+          <Name>TraceLevelMax</Name>
+          <Comment>Controls the amount of log messages.</Comment>
+          <BaseType GUID="{8007ae3b-86bb-40f2-b385-ef87fcc239a4}">TcTraceLevel</BaseType>
+          <PTCID>#x03002103</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter><Parameter><Name>Ts</Name><BaseType GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</BaseType><PTCID>#x00000001</PTCID><ContextId>1</ContextId></Parameter><Parameter><Name>MujocoModel</Name><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType><EnumInfo><Text><![CDATA[iiwa_hanging]]></Text><Enum>0</Enum></EnumInfo><EnumInfo><Text><![CDATA[iiwa_hanging_with_mass_gripped]]></Text><Enum>1</Enum></EnumInfo><EnumInfo><Text><![CDATA[custom]]></Text><Enum>2</Enum></EnumInfo><PTCID>#x00000002</PTCID><ContextId>1</ContextId></Parameter><Parameter><Name>CustomMujocoModelPath</Name><BaseType GUID="{18071995-0000-0000-0000-00010000007f}">STRING(127)</BaseType><PTCID>#x00000003</PTCID><ContextId>1</ContextId></Parameter>
+      </Parameters>
+      <DataAreas>
+        <DataArea>
+          <AreaNo AreaType="InputDst">0</AreaNo>
+          <Name>Inputs</Name>
+          <ContextId>1</ContextId><Symbol><Name>torque</Name><BaseType GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</BaseType></Symbol>
+        </DataArea>
+        <DataArea>
+          <AreaNo AreaType="OutputSrc">1</AreaNo>
+          <Name>Outputs</Name>
+          <ContextId>1</ContextId><Symbol><Name>joint_state</Name><BaseType GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</BaseType></Symbol><Symbol><Name>torque_sensor</Name><BaseType GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</BaseType></Symbol><Symbol><Name>torque_motor</Name><BaseType GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</BaseType></Symbol><Symbol><Name>model_path</Name><BaseType GUID="{18071995-0000-0000-0000-0001000000ff}">STRING(255)</BaseType></Symbol>
+        </DataArea>
+      </DataAreas>
+      <InterfacePointers>
+        <InterfacePointer>
+          <PTCID>#x03002060</PTCID>
+          <Name>CyclicCaller</Name>
+          <Type GUID="{0300001e-0000-0000-e000-000000000064}">ITcCyclicCaller</Type>
+        </InterfacePointer>
+      </InterfacePointers>
+      <DataPointers />
+      <Deployment />
+    </Module>
+  </Modules>
+  <Library>
+    <Name>RobotSim</Name>
+    <Version>0.0.0.1</Version>
+  </Library>
+</TcModuleClass>
