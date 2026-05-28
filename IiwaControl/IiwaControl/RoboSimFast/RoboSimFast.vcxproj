@@ -182,6 +182,13 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'" Label="PropertySheets" />
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT OS (x64)'" Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="TcSign" Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">
+    <TcSignTwinCat>true</TcSignTwinCat>
+  </PropertyGroup>
+  <PropertyGroup Label="TcSign">
+    <TcSignTwinCatCertName>acin.tccert</TcSignTwinCatCertName>
+    <TcSignTwinCatVerbose>true</TcSignTwinCatVerbose>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x86)'">
