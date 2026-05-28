@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{89ce78ad-eb19-4ef4-aa6d-6199c32a954d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{f5b1941c-f3fb-429b-ba9c-53bb17dfef12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TwinCAT UM Files">
+      <UniqueIdentifier>{29c3b8f7-f373-42e7-bd11-943af36ec191}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TwinCAT RT Files">
+      <UniqueIdentifier>{3f2e1947-50a3-4600-afc0-6f1c82d2459b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TwinCAT OS Files">
+      <UniqueIdentifier>{5856ca23-37fd-4111-bf0f-808de751e6d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TMC Files">
+      <UniqueIdentifier>{5bad19d6-0476-4114-8bf2-1e7b2579b181}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TcPch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoboSimFastClassFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoboSimFastInterfaces.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoboSimFastServices.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoboSimFastCtrl.h">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoboSimFastDriver.h">
+      <Filter>TwinCAT RT Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RobotSimulation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TcPch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RoboSimFastClassFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RoboSimFastCtrl.cpp">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RoboSimFastW32.cpp">
+      <Filter>TwinCAT UM Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RoboSimFastDriver.cpp">
+      <Filter>TwinCAT RT Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RoboSimFastMain.cpp">
+      <Filter>TwinCAT OS Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RobotSimulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="RoboSimFast.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="RoboSimFastW32.rc">
+      <Filter>TwinCAT UM Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RoboSimFastW32.def">
+      <Filter>TwinCAT UM Files</Filter>
+    </None>
+    <None Include="RoboSimFast.tmc">
+      <Filter>TMC Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="RoboSimFastW32.idl">
+      <Filter>TwinCAT UM Files</Filter>
+    </Midl>
+  </ItemGroup>
+</Project>

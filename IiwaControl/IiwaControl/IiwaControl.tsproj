@@ -1433,7 +1433,7 @@
 				</Instance>
 			</Project>
 			<Project GUID="{350D79A9-5258-43DF-BA55-F9C00CDA30E4}" Name="RobotSim" PrjFilePath="RobotSim\RobotSim.vcxproj" TmcFilePath="RobotSim\RobotSim.tmc">
-				<Instance Id="#x01010030" KeepUnrestoredLinks="2" ClassFactoryId="C++ Module Vendor|RobotSim|0.0.0.1">
+				<Instance Id="#x01010030" Disabled="true" KeepUnrestoredLinks="2" ClassFactoryId="C++ Module Vendor|RobotSim|0.0.0.1">
 					<Name>RobotSim_Obj1 (RobotSim)</Name>
 					<TmcDesc GUID="{CB1245E5-8C1F-4BCF-AD57-7E0EF900857C}">
 						<Name>RobotSim</Name>
@@ -1634,6 +1634,200 @@
 							<Value>
 								<Name>Task</Name>
 								<OTCID>#x02010020</OTCID>
+							</Value>
+							<Value>
+								<Name>ControllerFastCyclic</Name>
+								<OTCID>#x00000000</OTCID>
+							</Value>
+						</InterfacePointerValues>
+					</TmcDesc>
+				</Instance>
+			</Project>
+			<Project GUID="{5753F412-F359-4846-9349-96FCA6519FE4}" Name="RoboSimFast" PrjFilePath="RoboSimFast\RoboSimFast.vcxproj" TmcFilePath="RoboSimFast\RoboSimFast.tmc">
+				<Instance Id="#x01010050" KeepUnrestoredLinks="2" ClassFactoryId="C++ Module Vendor|RoboSimFast|0.0.0.1">
+					<Name>RoboSimFast_Obj1 (RobotSimulation)</Name>
+					<TmcDesc GUID="{583F2EE9-59E2-40BB-89F2-3C0514764D8D}">
+						<Name>RobotSimulation</Name>
+						<CLSID ClassFactory="RoboSimFast">{583F2EE9-59E2-40BB-89F2-3C0514764D8D}</CLSID>
+						<Licenses>
+							<License>
+								<LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+							</License>
+						</Licenses>
+						<InitSequence>PSO</InitSequence>
+						<Contexts>
+							<Context>
+								<Id>1</Id>
+								<ManualConfig>
+									<OTCID>#x02010020</OTCID>
+								</ManualConfig>
+								<Priority>1</Priority>
+								<CycleTime>125000</CycleTime>
+							</Context>
+						</Contexts>
+						<Interfaces>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+							</Interface>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+							</Interface>
+							<Interface DisableCodeGeneration="true">
+								<Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{03000025-0000-0000-E000-000000000064}">ITcPostCyclic</Type>
+							</Interface>
+						</Interfaces>
+						<Parameters>
+							<Parameter HideParameter="true">
+								<Name>TraceLevelMax</Name>
+								<Comment><![CDATA[Controls the amount of log messages.]]></Comment>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{8007AE3B-86BB-40F2-B385-EF87FCC239A4}">TcTraceLevel</BaseType>
+								<PTCID>#x03002103</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+							<Parameter>
+								<Name>Ts</Name>
+								<BitSize>64</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
+								<PTCID>#x00000001</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+							<Parameter>
+								<Name>MujocoModel</Name>
+								<BitSize>16</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
+								<EnumInfo>
+									<Text><![CDATA[iiwa_hanging]]></Text>
+									<Enum>0</Enum>
+								</EnumInfo>
+								<EnumInfo>
+									<Text><![CDATA[iiwa_hanging_with_mass_gripped]]></Text>
+									<Enum>1</Enum>
+								</EnumInfo>
+								<EnumInfo>
+									<Text><![CDATA[custom]]></Text>
+									<Enum>2</Enum>
+								</EnumInfo>
+								<PTCID>#x00000004</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+							<Parameter>
+								<Name>CustomMujocoModelPath</Name>
+								<BitSize>1024</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-00010000007F}">STRING(127)</BaseType>
+								<PTCID>#x00000005</PTCID>
+								<ContextId>1</ContextId>
+							</Parameter>
+						</Parameters>
+						<DataAreas>
+							<DataArea>
+								<AreaNo AreaType="Standard">2</AreaNo>
+								<Name>Data</Name>
+								<ContextId>1</ContextId>
+								<ByteSize>4</ByteSize>
+								<Symbol>
+									<Name>Value</Name>
+									<BitSize>32</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+									<BitOffs>0</BitOffs>
+								</Symbol>
+							</DataArea>
+						</DataAreas>
+						<InterfacePointers>
+							<InterfacePointer>
+								<PTCID>#x03002060</PTCID>
+								<Name>CyclicCaller</Name>
+								<Type GUID="{0300001E-0000-0000-E000-000000000064}">ITcCyclicCaller</Type>
+							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x00000008</PTCID>
+								<Name>ControllerFastPostCyclic</Name>
+								<Type GUID="{03000025-0000-0000-E000-000000000064}">ITcPostCyclic</Type>
+								<ContextId>1</ContextId>
+							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x00000009</PTCID>
+								<Name>PostCyclicCaller</Name>
+								<Type GUID="{03000026-0000-0000-E000-000000000064}">ITcPostCyclicCaller</Type>
+								<ContextId>1</ContextId>
+							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x0000000a</PTCID>
+								<Name>Task</Name>
+								<Type GUID="{02000003-0000-0000-E000-000000000064}">ITcRTimeTask</Type>
+								<ContextId>1</ContextId>
+							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x0000000b</PTCID>
+								<Name>ControllerFastCyclic</Name>
+								<Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+								<ContextId>1</ContextId>
+							</InterfacePointer>
+						</InterfacePointers>
+						<DataPointers>
+							<DataPointer>
+								<PTCID>#x00000002</PTCID>
+								<Name>torque</Name>
+								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Type>
+							</DataPointer>
+							<DataPointer>
+								<PTCID>#x00000003</PTCID>
+								<Name>torque_sensor</Name>
+								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Type>
+							</DataPointer>
+							<DataPointer>
+								<PTCID>#x00000006</PTCID>
+								<Name>torque_motor</Name>
+								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Type>
+								<ContextId>1</ContextId>
+							</DataPointer>
+							<DataPointer>
+								<PTCID>#x00000007</PTCID>
+								<Name>joint_state</Name>
+								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Type>
+								<ContextId>1</ContextId>
+							</DataPointer>
+						</DataPointers>
+						<ParameterValues>
+							<Value>
+								<Name>TraceLevelMax</Name>
+								<EnumText>tlAlways</EnumText>
+							</Value>
+							<Value>
+								<Name>Ts</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>MujocoModel</Name>
+								<EnumText>iiwa_hanging</EnumText>
+							</Value>
+							<Value>
+								<Name>CustomMujocoModelPath</Name>
+								<String></String>
+							</Value>
+						</ParameterValues>
+						<InterfacePointerValues>
+							<Value>
+								<Name>CyclicCaller</Name>
+								<OTCID>#x02010020</OTCID>
+							</Value>
+							<Value>
+								<Name>ControllerFastPostCyclic</Name>
+								<OTCID>#x00000000</OTCID>
+							</Value>
+							<Value>
+								<Name>PostCyclicCaller</Name>
+								<OTCID>#x00000000</OTCID>
+							</Value>
+							<Value>
+								<Name>Task</Name>
+								<OTCID>#x00000000</OTCID>
 							</Value>
 							<Value>
 								<Name>ControllerFastCyclic</Name>
