@@ -38,7 +38,7 @@
         </Interface>
         <Interface DisableCodeGeneration="true">
           <Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
-        </Interface>
+        </Interface><Interface><Type GUID="{d28a8cd2-5477-4b75-af0f-998841af9e44}">ITComOnlineChange</Type></Interface><Interface><Type GUID="{03000025-0000-0000-e000-000000000064}">ITcPostCyclic</Type></Interface>
       </Interfaces>
       <Parameters>
         <Parameter HideParameter="true">
@@ -53,12 +53,12 @@
         <DataArea>
           <AreaNo AreaType="InputDst">0</AreaNo>
           <Name>Inputs</Name>
-          <ContextId>1</ContextId><Symbol><Name>torque</Name><BaseType GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</BaseType></Symbol>
+          <ContextId>1</ContextId><Symbol><Name>Symbol1</Name><BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType></Symbol>
         </DataArea>
         <DataArea>
           <AreaNo AreaType="OutputSrc">1</AreaNo>
           <Name>Outputs</Name>
-          <ContextId>1</ContextId><Symbol><Name>joint_state</Name><BaseType GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</BaseType></Symbol><Symbol><Name>torque_sensor</Name><BaseType GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</BaseType></Symbol><Symbol><Name>torque_motor</Name><BaseType GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</BaseType></Symbol><Symbol><Name>model_path</Name><BaseType GUID="{18071995-0000-0000-0000-0001000000ff}">STRING(255)</BaseType></Symbol>
+          <ContextId>1</ContextId><Symbol><Name>model_path</Name><BaseType GUID="{18071995-0000-0000-0000-0001000000ff}">STRING(255)</BaseType></Symbol>
         </DataArea>
       </DataAreas>
       <InterfacePointers>
@@ -66,9 +66,9 @@
           <PTCID>#x03002060</PTCID>
           <Name>CyclicCaller</Name>
           <Type GUID="{0300001e-0000-0000-e000-000000000064}">ITcCyclicCaller</Type>
-        </InterfacePointer>
+        </InterfacePointer><InterfacePointer><PTCID>#x00000005</PTCID><Name>ControllerFastPostCyclic</Name><Type GUID="{03000025-0000-0000-e000-000000000064}">ITcPostCyclic</Type><ContextId>1</ContextId></InterfacePointer><InterfacePointer><PTCID>#x00000004</PTCID><Name>PostCyclicCaller</Name><Type GUID="{03000026-0000-0000-e000-000000000064}">ITcPostCyclicCaller</Type><ContextId>1</ContextId></InterfacePointer><InterfacePointer><PTCID>#x0000000A</PTCID><Name>Task</Name><Type GUID="{02000003-0000-0000-e000-000000000064}">ITcRTimeTask</Type><ContextId>1</ContextId></InterfacePointer><InterfacePointer><PTCID>#x0000000B</PTCID><Name>ControllerFastCyclic</Name><Type GUID="{03000010-0000-0000-e000-000000000064}">ITcCyclic</Type><ContextId>1</ContextId></InterfacePointer>
       </InterfacePointers>
-      <DataPointers />
+      <DataPointers ><DataPointer><PTCID>#x00000009</PTCID><Name>torque</Name><Type GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</Type><ContextId>1</ContextId></DataPointer><DataPointer><PTCID>#x00000007</PTCID><Name>torque_sensor</Name><Type GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</Type><ContextId>1</ContextId></DataPointer><DataPointer><PTCID>#x00000008</PTCID><Name>torque_motor</Name><Type GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</Type><ContextId>1</ContextId></DataPointer><DataPointer><PTCID>#x00000006</PTCID><Name>joint_state</Name><Type GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</Type><ContextId>1</ContextId></DataPointer></DataPointers>
       <Deployment />
     </Module>
   </Modules>

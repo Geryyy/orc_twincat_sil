@@ -1172,11 +1172,11 @@
 							</Value>
 							<Value>
 								<Name>singular_perturbation_enable</Name>
-								<EnumText>TRUE</EnumText>
+								<EnumText>FALSE</EnumText>
 							</Value>
 							<Value>
 								<Name>friction_compensation_enable</Name>
-								<EnumText>TRUE</EnumText>
+								<EnumText>FALSE</EnumText>
 							</Value>
 						</ParameterValues>
 						<InterfacePointerValues>
@@ -1412,11 +1412,11 @@
 						<ParameterValues>
 							<Value>
 								<Name>TraceLevelMax</Name>
-								<EnumText>tlWarning</EnumText>
+								<EnumText>tlInfo</EnumText>
 							</Value>
 							<Value>
 								<Name>client_ip_addr</Name>
-								<Value>3232236035</Value>
+								<Value>3232235779</Value>
 							</Value>
 						</ParameterValues>
 						<InterfacePointerValues>
@@ -1448,9 +1448,9 @@
 							<Context>
 								<Id>1</Id>
 								<ManualConfig>
-									<OTCID>#x02010040</OTCID>
+									<OTCID>#x02010020</OTCID>
 								</ManualConfig>
-								<Priority>3</Priority>
+								<Priority>1</Priority>
 								<CycleTime>125000</CycleTime>
 							</Context>
 						</Contexts>
@@ -1466,6 +1466,12 @@
 							</Interface>
 							<Interface DisableCodeGeneration="true">
 								<Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{D28A8CD2-5477-4B75-AF0F-998841AF9E44}">ITComOnlineChange</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{03000025-0000-0000-E000-000000000064}">ITcPostCyclic</Type>
 							</Interface>
 						</Interfaces>
 						<Parameters>
@@ -1516,11 +1522,11 @@
 								<AreaNo AreaType="InputDst">0</AreaNo>
 								<Name>Inputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>56</ByteSize>
+								<ByteSize>2</ByteSize>
 								<Symbol>
-									<Name>torque</Name>
-									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<Name>Symbol1</Name>
+									<BitSize>16</BitSize>
+									<BaseType GUID="{18071995-0000-0000-0000-000000000006}">INT</BaseType>
 									<BitOffs>0</BitOffs>
 								</Symbol>
 							</DataArea>
@@ -1528,30 +1534,12 @@
 								<AreaNo AreaType="OutputSrc">1</AreaNo>
 								<Name>Outputs</Name>
 								<ContextId>1</ContextId>
-								<ByteSize>424</ByteSize>
-								<Symbol>
-									<Name>joint_state</Name>
-									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
-									<BitOffs>0</BitOffs>
-								</Symbol>
-								<Symbol>
-									<Name>torque_sensor</Name>
-									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
-									<BitOffs>448</BitOffs>
-								</Symbol>
-								<Symbol>
-									<Name>torque_motor</Name>
-									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
-									<BitOffs>896</BitOffs>
-								</Symbol>
+								<ByteSize>256</ByteSize>
 								<Symbol>
 									<Name>model_path</Name>
 									<BitSize>2048</BitSize>
 									<BaseType GUID="{18071995-0000-0000-0000-0001000000FF}">STRING(255)</BaseType>
-									<BitOffs>1344</BitOffs>
+									<BitOffs>0</BitOffs>
 								</Symbol>
 							</DataArea>
 						</DataAreas>
@@ -1561,7 +1549,57 @@
 								<Name>CyclicCaller</Name>
 								<Type GUID="{0300001E-0000-0000-E000-000000000064}">ITcCyclicCaller</Type>
 							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x00000005</PTCID>
+								<Name>ControllerFastPostCyclic</Name>
+								<Type GUID="{03000025-0000-0000-E000-000000000064}">ITcPostCyclic</Type>
+								<ContextId>1</ContextId>
+							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x00000004</PTCID>
+								<Name>PostCyclicCaller</Name>
+								<Type GUID="{03000026-0000-0000-E000-000000000064}">ITcPostCyclicCaller</Type>
+								<ContextId>1</ContextId>
+							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x0000000a</PTCID>
+								<Name>Task</Name>
+								<Type GUID="{02000003-0000-0000-E000-000000000064}">ITcRTimeTask</Type>
+								<ContextId>1</ContextId>
+							</InterfacePointer>
+							<InterfacePointer>
+								<PTCID>#x0000000b</PTCID>
+								<Name>ControllerFastCyclic</Name>
+								<Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+								<ContextId>1</ContextId>
+							</InterfacePointer>
 						</InterfacePointers>
+						<DataPointers>
+							<DataPointer>
+								<PTCID>#x00000009</PTCID>
+								<Name>torque</Name>
+								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Type>
+								<ContextId>1</ContextId>
+							</DataPointer>
+							<DataPointer>
+								<PTCID>#x00000007</PTCID>
+								<Name>torque_sensor</Name>
+								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Type>
+								<ContextId>1</ContextId>
+							</DataPointer>
+							<DataPointer>
+								<PTCID>#x00000008</PTCID>
+								<Name>torque_motor</Name>
+								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Type>
+								<ContextId>1</ContextId>
+							</DataPointer>
+							<DataPointer>
+								<PTCID>#x00000006</PTCID>
+								<Name>joint_state</Name>
+								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Type>
+								<ContextId>1</ContextId>
+							</DataPointer>
+						</DataPointers>
 						<ParameterValues>
 							<Value>
 								<Name>TraceLevelMax</Name>
@@ -1569,7 +1607,7 @@
 							</Value>
 							<Value>
 								<Name>Ts</Name>
-								<Value>0</Value>
+								<Value>0.000125</Value>
 							</Value>
 							<Value>
 								<Name>MujocoModel</Name>
@@ -1583,7 +1621,23 @@
 						<InterfacePointerValues>
 							<Value>
 								<Name>CyclicCaller</Name>
-								<OTCID>#x02010040</OTCID>
+								<OTCID>#x02010020</OTCID>
+							</Value>
+							<Value>
+								<Name>ControllerFastPostCyclic</Name>
+								<OTCID>#x01010010</OTCID>
+							</Value>
+							<Value>
+								<Name>PostCyclicCaller</Name>
+								<OTCID>#x02010020</OTCID>
+							</Value>
+							<Value>
+								<Name>Task</Name>
+								<OTCID>#x02010020</OTCID>
+							</Value>
+							<Value>
+								<Name>ControllerFastCyclic</Name>
+								<OTCID>#x00000000</OTCID>
 							</Value>
 						</InterfacePointerValues>
 					</TmcDesc>
@@ -2117,12 +2171,6 @@
 	</Project>
 	<Mappings>
 		<OwnerA Name="TIXC^ArcTcControl^ArcTcControl">
-			<OwnerB Name="TIXC^RobotSim^RobotSim_Obj1 (RobotSim)">
-				<Link VarA="robot_interface_in^joint_state_act" VarB="Outputs^joint_state"/>
-				<Link VarA="robot_interface_in^torque_motor_act" VarB="Outputs^torque_motor"/>
-				<Link VarA="robot_interface_in^torque_sensor_act" VarB="Outputs^torque_sensor"/>
-				<Link VarA="robot_interface_out^torque_set" VarB="Inputs^torque"/>
-			</OwnerB>
 			<OwnerB Name="TIXC^UdpInterface^UdpInterface">
 				<Link VarA="Data Pointer^udp_rx_msg" VarB="Iiwa_Outputs^rx_msg"/>
 				<Link VarA="Data Pointer^udp_tx_msg" VarB="Iiwa_Inputs^tx_msg"/>

@@ -98,6 +98,6 @@ protected:
 	PUCHAR model_binary;
 	UINT model_size;
 	HRESULT readBinaryModel(PCCH fileName);
-
+	bool iniOK = false;
 	UINT counter;
 };

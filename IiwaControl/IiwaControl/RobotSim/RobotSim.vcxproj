@@ -212,6 +212,7 @@
     <TcSignTwinCatCertPW>
     </TcSignTwinCatCertPW>
     <TcSignTwinCatVerbose>true</TcSignTwinCatVerbose>
+    <TcSignWindowsSha1Verbose>true</TcSignWindowsSha1Verbose>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">
   </ItemDefinitionGroup>
