@@ -1834,6 +1834,36 @@
 								<OTCID>#x00000000</OTCID>
 							</Value>
 						</InterfacePointerValues>
+						<DataPointerValues>
+							<Value>
+								<Name>torque</Name>
+								<OTCID>#x01010010</OTCID>
+								<AreaNo>1</AreaNo>
+								<ByteOffs>16</ByteOffs>
+								<ByteSize>56</ByteSize>
+							</Value>
+							<Value>
+								<Name>torque_sensor</Name>
+								<OTCID>#x01010010</OTCID>
+								<AreaNo>0</AreaNo>
+								<ByteOffs>56</ByteOffs>
+								<ByteSize>56</ByteSize>
+							</Value>
+							<Value>
+								<Name>torque_motor</Name>
+								<OTCID>#x01010010</OTCID>
+								<AreaNo>0</AreaNo>
+								<ByteOffs>112</ByteOffs>
+								<ByteSize>56</ByteSize>
+							</Value>
+							<Value>
+								<Name>joint_state</Name>
+								<OTCID>#x01010010</OTCID>
+								<AreaNo>0</AreaNo>
+								<ByteOffs>0</ByteOffs>
+								<ByteSize>56</ByteSize>
+							</Value>
+						</DataPointerValues>
 					</TmcDesc>
 				</Instance>
 			</Project>
@@ -2365,6 +2395,12 @@
 	</Project>
 	<Mappings>
 		<OwnerA Name="TIXC^ArcTcControl^ArcTcControl">
+			<OwnerB Name="TIXC^RoboSimFast^RoboSimFast_Obj1 (RobotSimulation)">
+				<Link VarA="robot_interface_in^joint_state_act" VarB="Data Pointer^joint_state"/>
+				<Link VarA="robot_interface_in^torque_motor_act" VarB="Data Pointer^torque_motor"/>
+				<Link VarA="robot_interface_in^torque_sensor_act" VarB="Data Pointer^torque_sensor"/>
+				<Link VarA="robot_interface_out^torque_set" VarB="Data Pointer^torque"/>
+			</OwnerB>
 			<OwnerB Name="TIXC^UdpInterface^UdpInterface">
 				<Link VarA="Data Pointer^udp_rx_msg" VarB="Iiwa_Outputs^rx_msg"/>
 				<Link VarA="Data Pointer^udp_tx_msg" VarB="Iiwa_Inputs^tx_msg"/>
