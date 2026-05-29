@@ -2,7 +2,9 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <vector>
 #include "orc/util/Time.h"
+#include "orc/util/import_eigen.h"
 
 /* NOTE: Filter implementation relies on Eigen Array types for elementwise operations. */
 
@@ -122,6 +124,113 @@ public:
         FirstOrderIIR<T>::b[0] = T::Zero();
         FirstOrderIIR<T>::b[1] = (tmp - T::Ones()) * V * tmp.inverse();
         FirstOrderIIR<T>::a = -1 * tmp.inverse();
+    }
+};
+
+/**
+ * @brief Causal Savitzky-Golay differentiator / smoother.
+ *
+ * Fits a polynomial of order @p poly_order to the last @p window samples in a
+ * least-squares sense and evaluates the @p deriv_order -th derivative of that
+ * polynomial at the most recent sample. Compared to cascaded first-order
+ * differentiators (DT1), this estimates higher-order derivatives (e.g. joint
+ * acceleration) directly from position with far less noise amplification.
+ *
+ * The fit weights are precomputed once in the constructor and applied as a fixed
+ * FIR kernel in update(), so the per-cycle cost is a single dot product per
+ * element and the real-time path performs no dynamic allocation.
+ *
+ * Operates elementwise on Eigen Array types, like the other filters in this file.
+ */
+template <typename T>
+class SavitzkyGolay {
+    Time Ta_;
+    int N_;                      // window length [samples]
+    int head_ = 0;               // ring-buffer index of the newest sample
+    bool initialized_ = false;   // whether the window has been primed
+    std::vector<double> coeff_;  // FIR weights; coeff_[j] multiplies the sample at lag j
+    std::vector<T> buffer_;      // ring buffer of past inputs
+
+    static double factorial(int n) {
+        double f = 1.0;
+        for (int i = 2; i <= n; ++i)
+            f *= static_cast<double>(i);
+        return f;
+    }
+
+public:
+    /**
+     * @param window      Number of samples in the sliding window (>= poly_order + 1)
+     * @param poly_order  Order of the fitted polynomial (>= deriv_order)
+     * @param deriv_order Derivative to estimate: 0 = smoothing, 1 = velocity, 2 = acceleration
+     * @param Ta          Sample time in seconds
+     */
+    SavitzkyGolay(int window, int poly_order, int deriv_order, Time Ta) : Ta_(Ta) {
+        // sanitize parameters so the least-squares problem stays well posed
+        if (deriv_order < 0)
+            deriv_order = 0;
+        if (poly_order < deriv_order)
+            poly_order = deriv_order;
+        if (window < poly_order + 1)
+            window = poly_order + 1;
+        N_ = window;
+
+        // guard against a zero/negative sampling period (division by zero)
+        double Ta_sec = Ta_.toSec();
+        if (!(Ta_sec > 1e-12))
+            Ta_sec = 1e-12;
+
+        // Build the design matrix in normalized sample units (x = -lag, newest at x = 0)
+        // to keep the system well conditioned; the derivative is rescaled to physical
+        // units afterwards via 1 / Ta^deriv_order.
+        Eigen::MatrixXd A(N_, poly_order + 1);
+        for (int j = 0; j < N_; ++j) {
+            double x = -static_cast<double>(j);
+            double p = 1.0;
+            for (int i = 0; i <= poly_order; ++i) {
+                A(j, i) = p;
+                p *= x;
+            }
+        }
+
+        // Pseudo-inverse G = (A^T A)^-1 A^T (shape (poly_order+1) x N) via least-squares QR.
+        Eigen::MatrixXd G =
+            A.colPivHouseholderQr().solve(Eigen::MatrixXd::Identity(N_, N_));
+
+        // The deriv_order-th derivative of the fit at x = 0 is deriv_order! * c_deriv_order,
+        // i.e. row deriv_order of G; convert from per-sample to per-second.
+        double scale = factorial(deriv_order) / std::pow(Ta_sec, deriv_order);
+        coeff_.resize(N_);
+        for (int j = 0; j < N_; ++j)
+            coeff_[j] = scale * G(deriv_order, j);
+
+        T zero = T::Zero();
+        buffer_.assign(N_, zero);
+    }
+
+    T update(const T& u) {
+        if (!initialized_) {
+            // prime the whole window with the first sample to avoid a startup spike
+            buffer_.assign(N_, u);
+            head_ = 0;
+            initialized_ = true;
+        } else {
+            head_ = (head_ + 1) % N_;
+            buffer_[head_] = u;
+        }
+
+        T y = T::Zero();
+        for (int j = 0; j < N_; ++j) {
+            int idx = (head_ - j + N_) % N_;  // lag j; j = 0 is the newest sample
+            y += coeff_[j] * buffer_[idx];
+        }
+        return y;
+    }
+
+    void reset(const T& value) {
+        buffer_.assign(N_, value);
+        head_ = 0;
+        initialized_ = true;
     }
 };
 

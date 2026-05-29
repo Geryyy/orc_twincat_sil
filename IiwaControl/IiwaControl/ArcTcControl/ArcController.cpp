@@ -502,7 +502,7 @@ HRESULT CArcController::runController(){
 
 	// run controller
 	JointVector tau_set;
-	bool return_value;
+	bool return_value = false;
 
 	if (!iniOK) {
 		Time T_traj = 1.0;
@@ -513,7 +513,7 @@ HRESULT CArcController::runController(){
 		m_Trace.Log(tlInfo, FLEAVEA "arc_contr->start() executed!", hr);
 	}
 	else {
-		return_value = arc_contr_ptr->update(t, true);
+		return_value = arc_contr_ptr->update(t, false);
 
 		JointVector q_set = arc_contr_ptr->get_q_set();
 		m_Trace.Log(tlVerbose, FLEAVEA "q_set=[%g %g %g %g %g %g %g]",

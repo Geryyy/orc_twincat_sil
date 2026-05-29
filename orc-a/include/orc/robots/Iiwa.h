@@ -53,10 +53,15 @@ public:
     inline const static std::string name_link_e = "iiwa_link_e";
 
 private:
+    // Savitzky-Golay design for the acceleration estimate (tune for your sample rate).
+    static constexpr int SG_WINDOW = 15;     // sliding-window length [samples]
+    static constexpr int SG_POLY_ORDER = 2;  // fitted polynomial order
+
     // Filters
     orc::sig::PT1<JointArray> q_filter;
     orc::sig::DT1<JointArray> q_dot_filter;
-    orc::sig::DT1<JointArray> q_dotdot_filter;
+    // Second derivative from position via Savitzky-Golay: lower noise than a DT1 cascade.
+    orc::sig::SavitzkyGolay<JointArray> q_dotdot_filter;
 
 public:
 #ifdef TC_VER
@@ -68,7 +73,7 @@ public:
         : Robot(model_binary, model_size, Ta, m_Trace, name_site_e, name_sensor_force),
           q_filter(f_cutoff_norm, Ta),
           q_dot_filter(f_cutoff_norm, Ta),
-          q_dotdot_filter(f_cutoff_norm, Ta) {
+          q_dotdot_filter(SG_WINDOW, SG_POLY_ORDER, 2, Ta) {
         this->register_JointCTController(js_param);
         this->register_CartesianCTController(ts_param);
         this->register_SingularPertrubationController(sp_param);
@@ -83,7 +88,7 @@ public:
         : Robot(model_binary, model_size, Ta, m_Trace, name_site_e, name_sensor_force),
           q_filter(f_cutoff_norm, Ta),
           q_dot_filter(f_cutoff_norm, Ta),
-          q_dotdot_filter(f_cutoff_norm, Ta) {
+          q_dotdot_filter(SG_WINDOW, SG_POLY_ORDER, 2, Ta) {
         this->register_JointCTController(js_param);
         this->register_CartesianCTController(ts_param);
         this->register_GravityCompController(gc_param);
@@ -133,7 +138,7 @@ public:
         : Robot(mjb_path, Ta, endeffector_body_name, name_sensor_force),
           q_filter(f_cutoff_norm, Ta),
           q_dot_filter(f_cutoff_norm, Ta),
-          q_dotdot_filter(f_cutoff_norm, Ta) {
+          q_dotdot_filter(SG_WINDOW, SG_POLY_ORDER, 2, Ta) {
         this->register_JointCTController(js_param);
         this->register_CartesianCTController(ts_param);
         this->register_SingularPertrubationController(sp_param);
@@ -159,7 +164,7 @@ public:
         : Robot(mjb_path, Ta, endeffector_body_name, name_sensor_force),
           q_filter(f_cutoff_norm, Ta),
           q_dot_filter(f_cutoff_norm, Ta),
-          q_dotdot_filter(f_cutoff_norm, Ta) {
+          q_dotdot_filter(SG_WINDOW, SG_POLY_ORDER, 2, Ta) {
         this->register_JointCTController(js_param);
         this->register_CartesianCTController(ts_param);
         this->register_GravityCompController(gc_param);
@@ -200,6 +205,7 @@ public:
     void set_q_act_filtered_derivatives(JointVector& q_act) {
         robot_data.q_act = q_filter.update(q_act);
         robot_data.q_dot_act = q_dot_filter.update(q_act);
+        // Savitzky-Golay estimates acceleration directly from position.
         robot_data.q_dotdot_act = q_dotdot_filter.update(q_act);
     }
 
