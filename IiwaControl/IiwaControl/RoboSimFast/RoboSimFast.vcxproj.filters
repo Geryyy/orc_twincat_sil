@@ -19,6 +19,9 @@
     <Filter Include="TMC Files">
       <UniqueIdentifier>{5bad19d6-0476-4114-8bf2-1e7b2579b181}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\mujoco_tc">
+      <UniqueIdentifier>{287b62f3-d4d1-453e-91c7-cbdb2a9ebecc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -66,6 +69,69 @@
       <Filter>TwinCAT OS Files</Filter>
     </ClCompile>
     <ClCompile Include="RobotSimulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\include\mujoco_tc\engine_collision_box_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\include\mujoco_tc\engine_collision_convex_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_callback.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_collision_driver_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_collision_primitive_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_core_constraint_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_core_smooth_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_forward_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_io_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_name_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_passive_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_support_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_blas_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_misc_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_solve_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_sparse_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_spatial_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\mujoco_tc.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mujoco_tc\src\mujoco_tc_calculations.cpp">
+      <Filter>Source Files\mujoco_tc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ArcTcControl\eigen_tc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\orc-a\src\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

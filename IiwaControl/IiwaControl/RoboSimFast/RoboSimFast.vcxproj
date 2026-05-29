@@ -54,6 +54,27 @@
     <ClInclude Include="RoboSimFastServices.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\mujoco_tc\include\mujoco_tc\engine_collision_box_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\include\mujoco_tc\engine_collision_convex_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_callback.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_collision_driver_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_collision_primitive_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_core_constraint_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_core_smooth_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_forward_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_io_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_name_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_passive_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_support_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_blas_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_misc_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_solve_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_sparse_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\engine_util_spatial_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\mujoco_tc.cpp" />
+    <ClCompile Include="..\..\..\mujoco_tc\src\mujoco_tc_calculations.cpp" />
+    <ClCompile Include="..\..\..\orc-a\src\Logger.cpp" />
+    <ClCompile Include="..\ArcTcControl\eigen_tc.cpp" />
     <ClCompile Include="RobotSimulation.cpp" />
     <ClCompile Include="TcPch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">Create</PrecompiledHeader>
@@ -133,6 +154,7 @@
     <RootNamespace>RoboSimFast</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <AutomaticRetargetPlatformVersion>true</AutomaticRetargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Label="TcGeneral">
     <TcGeneralUseTmx>true</TcGeneralUseTmx>
@@ -204,6 +226,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>.\..\..\..\orc-a\include;.\..\..\..\orc-a\third_party\flatbuffers\include;.\..\..\..\eigen_import_libs;.\..\..\..\mujoco_tc\include;.\..\..\..\mujoco_tc\src;$(EIGENDIR);.\..\..\..\TcIntrin\v141\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TCMATH_BLOCK_STANDARDLIB=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
