@@ -18,43 +18,21 @@
 
 
 // forward dynamics with skip; skipstage is mjtStage
-//
-// Implements the smooth (constraint-free) forward-dynamics solve with the
-// IMPLICITFAST damping treatment used by stock MuJoCo as default. For each
-// DOF with viscous damping b, we fold (dt * b) into the inertia diagonal
-// before the Cholesky factorization:
-//
-//   (M + dt * diag(b)) * qacc = qfrc_smooth
-//
-// This makes joint damping unconditionally stable regardless of the caller's
-// integrator timestep, instead of imposing the explicit limit b < 2*M/dt.
-//
-// Requires m->opt.timestep to match the caller's actual integration step.
 void mj_forwardSkip(const mjModel* m, mjData* d, int skipstage, int skipsensor) {
     TM_START;
 
     mj_fwdPosition(m, d);
     mj_fwdVelocity(m, d);
 
-    // assemble net unconstrained force:
-    //   qfrc_smooth = qfrc_applied + qfrc_passive - qfrc_bias
-    // (no qfrc_actuator: actuation pipeline is not used in this port; torques
-    //  are supplied directly via qfrc_applied)
+    // qfrc_smooth = qfrc_applied + qfrc_passive - qfrc_bias
     int nv = m->nv;
     mju_sub(d->qfrc_smooth, d->qfrc_applied, d->qfrc_bias, nv);
     mju_addTo(d->qfrc_smooth, d->qfrc_passive, nv);
 
-    // solve (M + dt*diag(dof_damping)) * qacc = qfrc_smooth via dense Cholesky.
+    // solve M * qacc = qfrc_smooth via dense Cholesky
     mj_markStack(d);
     mjtNum* Mdense = mjSTACKALLOC(d, nv * nv, mjtNum);
     mj_fullM(m, Mdense, d->qM);
-
-    // implicit damping fold-in
-    mjtNum dt = m->opt.timestep;
-    for (int i = 0; i < nv; i++) {
-        Mdense[i * nv + i] += dt * m->dof_damping[i];
-    }
-
     mju_cholFactor(Mdense, nv, 0);
     mju_cholSolve(d->qacc, Mdense, d->qfrc_smooth, nv);
     mju_copy(d->qacc_smooth, d->qacc, nv);

@@ -168,23 +168,6 @@ HRESULT CRobotSimulation::SetObjStatePS(PTComInitDataHdr pInitData)
 
 	mj_model = mj_loadModelBuffer((void*)model_binary, (unsigned int)model_size, m_Trace);
 	mj_data = mj_makeData(mj_model);
-
-	// Runtime override of joint damping. Many iiwa MJCFs ship with damping=0,
-	// which leaves the plant with no physical dissipation and forces the
-	// closed-loop controller to provide all damping explicitly -- which fails
-	// once the cycle-time / DOF-inertia ratio crosses the explicit-feedback
-	// stability limit. With nonzero dof_damping the implicit fold in
-	// mj_forwardSkip ((M + dt*diag(b)) qacc = qfrc_smooth) makes the closed
-	// loop unconditionally stable for that damping term.
-	//
-	// Start with 0.5 N*m*s/rad uniformly; tune per-joint if needed. Set to 0
-	// to restore the original MJCF behavior.
-	// const double joint_damping_override = 0.5;
-	// if (joint_damping_override > 0) {
-	// 	for (int i = 0; i < mj_model->nv; ++i) {
-	// 		mj_model->dof_damping[i] = joint_damping_override;
-	// 	}
-	// }
 	// ------------------- MUJOCO END ----------------------
 
 	orc::log::start_logging_twincat(m_TraceLevelMax, &m_Trace);
@@ -215,23 +198,6 @@ HRESULT CRobotSimulation::SetObjStateSO()
 	m_Trace.Log(tlInfo, FLEAVEA "nq = %d", mj_model->nq);
 	m_Trace.Log(tlInfo, FLEAVEA "nv = %d", mj_model->nv);
 	m_Trace.Log(tlInfo, FLEAVEA "nu = %d", mj_model->nu);
-
-	// sync the simulator's "expected dt" with our actual integration step.
-	// mj_forwardSkip uses this to apply implicit damping (M + dt*diag(b)).
-	mj_model->opt.timestep = Ts.toSec();
-	m_Trace.Log(tlAlways, FLEAVEA "mj_model->opt.timestep set to %g s", mj_model->opt.timestep);
-
-	// log model damping/armature so we can see what physical dissipation the
-	// simulator actually has. Zero damping ==> Euler-class integrators ring
-	// up energy and diverge under any perturbation.
-	m_Trace.Log(tlAlways, FLEAVEA "dof_damping=[%g %g %g %g %g %g %g]",
-		mj_model->dof_damping[0], mj_model->dof_damping[1], mj_model->dof_damping[2],
-		mj_model->dof_damping[3], mj_model->dof_damping[4], mj_model->dof_damping[5],
-		mj_model->dof_damping[6]);
-	m_Trace.Log(tlAlways, FLEAVEA "dof_armature=[%g %g %g %g %g %g %g]",
-		mj_model->dof_armature[0], mj_model->dof_armature[1], mj_model->dof_armature[2],
-		mj_model->dof_armature[3], mj_model->dof_armature[4], mj_model->dof_armature[5],
-		mj_model->dof_armature[6]);
 
 	// Initialize data pointer
 	hr = FAILED(hr) ? hr : InitDataPointer();
@@ -311,8 +277,8 @@ HRESULT CRobotSimulation::CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULO
 	}
 
 	// RNEA - forward dynamics computation.
-	// mju_copy(mj_data->qfrc_applied, tau.data(), mj_model->nv);  // applied generalized forces
-	mju_copy(mj_data->ctrl, tau.data(), mj_model->nv);  // applied generalized forces
+	mju_copy(mj_data->qfrc_applied, tau.data(), mj_model->nv);  // applied generalized forces
+	// mju_copy(mj_data->ctrl, tau.data(), mj_model->nv);  // applied generalized forces
 
 
 	m_Trace.Log(tlVerbose, FLEAVEA "nv=%d qfrc_applied=[%g %g %g %g %g %g %g]",
