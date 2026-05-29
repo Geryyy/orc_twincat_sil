@@ -76,6 +76,19 @@ public:
         this->register_GravityCompController(gc_param);
     }
 
+    Iiwa(unsigned char* model_binary, unsigned int model_size, JointCTParameter js_param,
+         CartesianCTParameter ts_param, GravityCompParameter gc_param, Time Ta,
+         JointArray f_cutoff_norm, CTcTrace m_Trace, std::string name_site_e = name_link_e,
+         std::string name_sensor_force = "")
+        : Robot(model_binary, model_size, Ta, m_Trace, name_site_e, name_sensor_force),
+          q_filter(f_cutoff_norm, Ta),
+          q_dot_filter(f_cutoff_norm, Ta),
+          q_dotdot_filter(f_cutoff_norm, Ta) {
+        this->register_JointCTController(js_param);
+        this->register_CartesianCTController(ts_param);
+        this->register_GravityCompController(gc_param);
+    }
+
 #else
     /**
      * @brief Construct a new Iiwa object with default sample time

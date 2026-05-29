@@ -179,12 +179,12 @@ HRESULT CRobotSimulation::SetObjStatePS(PTComInitDataHdr pInitData)
 	//
 	// Start with 0.5 N*m*s/rad uniformly; tune per-joint if needed. Set to 0
 	// to restore the original MJCF behavior.
-	const double joint_damping_override = 0.5;
-	if (joint_damping_override > 0) {
-		for (int i = 0; i < mj_model->nv; ++i) {
-			mj_model->dof_damping[i] = joint_damping_override;
-		}
-	}
+	// const double joint_damping_override = 0.5;
+	// if (joint_damping_override > 0) {
+	// 	for (int i = 0; i < mj_model->nv; ++i) {
+	// 		mj_model->dof_damping[i] = joint_damping_override;
+	// 	}
+	// }
 	// ------------------- MUJOCO END ----------------------
 
 	orc::log::start_logging_twincat(m_TraceLevelMax, &m_Trace);
@@ -211,6 +211,10 @@ HRESULT CRobotSimulation::SetObjStateSO()
 	// read cycle time from TcCom Module Parameter
 	Ts = m_Ts;
 	m_Trace.Log(tlAlways, FLEAVEA "Cycle Time Ts = %f s", Ts.toSec());
+
+	m_Trace.Log(tlInfo, FLEAVEA "nq = %d", mj_model->nq);
+	m_Trace.Log(tlInfo, FLEAVEA "nv = %d", mj_model->nv);
+	m_Trace.Log(tlInfo, FLEAVEA "nu = %d", mj_model->nu);
 
 	// sync the simulator's "expected dt" with our actual integration step.
 	// mj_forwardSkip uses this to apply implicit damping (M + dt*diag(b)).
@@ -295,8 +299,8 @@ HRESULT CRobotSimulation::CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULO
 	HRESULT hr = S_OK;
 
 	// torque input
-	//JointVector tau(m_sptorque->Values);
-	JointVector tau = JointVector::Zero();
+	JointVector tau(m_sptorque->Values);
+	// JointVector tau = JointVector::Zero();
 
 	// Saturate tau to iiwa14 rated joint-torque limits (KUKA datasheet).
 	// For iiwa7 R800 use {176,176,110,110,110,40,40} instead. 
@@ -307,14 +311,15 @@ HRESULT CRobotSimulation::CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULO
 	}
 
 	// RNEA - forward dynamics computation.
-	mju_copy(mj_data->qfrc_applied, tau.data(), mj_model->nv);  // applied generalized forces
+	// mju_copy(mj_data->qfrc_applied, tau.data(), mj_model->nv);  // applied generalized forces
+	mju_copy(mj_data->ctrl, tau.data(), mj_model->nv);  // applied generalized forces
 
 
-	//m_Trace.Log(tlVerbose, FLEAVEA "nv=%d qfrc_applied=[%g %g %g %g %g %g %g]",
-	//	mj_model->nv,
-	//	mj_data->qfrc_applied[0], mj_data->qfrc_applied[1], mj_data->qfrc_applied[2],
-	//	mj_data->qfrc_applied[3], mj_data->qfrc_applied[4], mj_data->qfrc_applied[5],
-	//	mj_data->qfrc_applied[6]);
+	m_Trace.Log(tlVerbose, FLEAVEA "nv=%d qfrc_applied=[%g %g %g %g %g %g %g]",
+		mj_model->nv,
+		mj_data->qfrc_applied[0], mj_data->qfrc_applied[1], mj_data->qfrc_applied[2],
+		mj_data->qfrc_applied[3], mj_data->qfrc_applied[4], mj_data->qfrc_applied[5],
+		mj_data->qfrc_applied[6]);
 
 	mj_forward(mj_model, mj_data);
 	
@@ -326,6 +331,12 @@ HRESULT CRobotSimulation::CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULO
 
 	m_Trace.Log(tlVerbose, FLEAVEA "qdd=[%g %g %g %g %g %g %g]",
 		qdd(0), qdd(1), qdd(2), qdd(3), qdd(4), qdd(5), qdd(6));
+
+	m_Trace.Log(tlVerbose, FLEAVEA "qd=[%g %g %g %g %g %g %g]",
+		qd(0), qd(1), qd(2), qd(3), qd(4), qd(5), qd(6));
+	
+	m_Trace.Log(tlVerbose, FLEAVEA "q=[%g %g %g %g %g %g %g]",
+		q(0), q(1), q(2), q(3), q(4), q(5), q(6));
 
 	// semi-implicit (symplectic) Euler: update velocity first, then use the
 	// new velocity to update position. Equivalent to MuJoCo's mj_Euler and is
@@ -342,9 +353,9 @@ HRESULT CRobotSimulation::CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULO
 	mju_copy(mj_data->qpos, q.data(), mj_model->nq);  
 
 	// return joint state
-	//JointVector::Map(m_spjoint_state->Values) = q;
-	//JointVector::Map(m_sptorque_motor->Values) = tau;
-	//JointVector::Map(m_sptorque_sensor->Values) = tau;
+	JointVector::Map(m_spjoint_state->Values) = q;
+	// JointVector::Map(m_sptorque_motor->Values) = tau;
+	// JointVector::Map(m_sptorque_sensor->Values) = tau;
 
 	return hr;
 }

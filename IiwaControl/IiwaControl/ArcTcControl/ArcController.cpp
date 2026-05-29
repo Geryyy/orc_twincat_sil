@@ -210,19 +210,23 @@ HRESULT CArcController::SetObjStateSO()
 
 
 	// set controller parameter
-	Iiwa::IiwaContrParam contr_param(false); // true..sim, false..lab
+	Iiwa::IiwaContrParam contr_param(true); // true..sim, false..lab
 	JointArray f_c_slow_norm = contr_param.f_c_slow * (2 * Ts.toSec());
 	JointArray f_c_fast_norm = contr_param.f_c_fast * (2 * Ts.toSec());
 
 	Iiwa::JointCTParameter js_param(contr_param);
 	Iiwa::CartesianCTParameter ts_param(contr_param);
-	Iiwa::SingularPerturbationParameter sp_param(contr_param.K_sp, contr_param.D_sp, contr_param.B, f_c_fast_norm);
-	Iiwa::FrictionCompParameter fc_param(contr_param.L_fc, contr_param.B, f_c_fast_norm);
+	// Iiwa::SingularPerturbationParameter sp_param(contr_param.K_sp, contr_param.D_sp, contr_param.B, f_c_fast_norm);
+	// Iiwa::FrictionCompParameter fc_param(contr_param.L_fc, contr_param.B, f_c_fast_norm);
 	Iiwa::GravityCompParameter gc_param(contr_param.D_gc);
 
 	// create instances
 	m_Trace.Log(tlAlways, FLEAVEA "Init ArcLab Controller");
-	arc_contr_ptr = new robots::Iiwa((unsigned char*)model_binary, model_size, js_param, ts_param, sp_param, fc_param, gc_param, Ts, f_c_slow_norm, m_Trace);
+
+	// Iiwa instance for simulation
+	arc_contr_ptr = new robots::Iiwa((unsigned char*)model_binary, model_size, js_param, ts_param, gc_param, Ts, f_c_slow_norm, m_Trace);
+	// Iiwa instance for real robot - includes singular perturbation and friciton compensation controller
+	// arc_contr_ptr = new robots::Iiwa((unsigned char*)model_binary, model_size, js_param, ts_param, sp_param, fc_param, gc_param, Ts, f_c_slow_norm, m_Trace);
 	if (arc_contr_ptr->get_endeffector_site_id() < 0) {
 		m_Trace.Log(tlError, FENTERA "Body iiwa_link_e could not be found in MuJoCo model!");
 		return EXIT_FAILURE;
@@ -312,8 +316,8 @@ HRESULT CArcController::CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULONG
 		}
 	}
 
-	/* Control runs in PostCyclic! */
-	
+	/* Control runs in PostCyclic! */	
+	hr = runController();
 
 
 	/* UDP output */
@@ -403,55 +407,11 @@ HRESULT CArcController::PostCyclicUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, 
 {
 	HRESULT hr = S_OK;
 
-	// read inputs
-	JointVector q_act(m_robot_interface_in.joint_state_act.Values);
-	JointVector tau_sens_act(m_robot_interface_in.torque_sensor_act.Values);
-	JointVector tau_motor_act(m_robot_interface_in.torque_motor_act.Values);
+	m_Trace.Log(tlAlways, FENTERA "Hello!", hr);
 
+	// hr = runController();
 
-	// Set robot state 
-	arc_contr_ptr->set_q_act_filtered_derivatives(q_act);
-	arc_contr_ptr->set_tau_sens(tau_sens_act);
-	arc_contr_ptr->set_tau_motor(tau_motor_act);
-
-	// run controller
-	JointVector tau_set;
-	bool return_value;
-
-	if (!iniOK) {
-		Time T_traj = 1.0;
-		JointVector q_end = q_act;
-		arc_contr_ptr->start(t, q_act, q_end, T_traj);
-		m_Trace.Log(tlInfo, FLEAVEA "arc_contr->start() executed!", hr);
-	}
-	else {
-		return_value = arc_contr_ptr->update(t, true);
-	}
-	iniOK = true;
-
-	if (return_value)
-		tau_set = arc_contr_ptr->get_tau_act();
-	else {
-		tau_set.setZero();
-		return EXIT_FAILURE;
-	}
-
-	// robot interface outputs
-	JointVector::Map(m_robot_interface_out.torque_set.Values) = tau_set;
-	m_robot_interface_out.motion_enable = 0.0;
-	m_robot_interface_out.motion_disable = 0.0;
-	if (state_machine_ptr->is_disable_transition()) {
-		m_robot_interface_out.motion_disable = 1.0;
-	}
-	else if (state_machine_ptr->is_enable_transition()) {
-		m_robot_interface_out.motion_enable = 1.0;
-	}
-
-	// robot interface works with double: convert bool to double
-	double motor_enable = 1.0;
-	for (int i = 0; i < sizeof(m_robot_interface_out.motor_enable.Values) / sizeof(double); i++) {
-		m_robot_interface_out.motor_enable.Values[i] = motor_enable;
-	}
+	m_Trace.Log(tlAlways, FLEAVEA "Bye!", hr);
 	
 	return hr;
 }
@@ -521,5 +481,70 @@ HRESULT CArcController::readBinaryModel(PCCH fileName)
 	// close file
 	hr = m_spFileAccess->FileClose(hFile);
 	m_Trace.Log(tlVerbose, FLEAVEA "hr=0x%08x", hr);
+	return hr;
+}
+
+
+
+HRESULT CArcController::runController(){
+	HRESULT hr = S_OK;
+
+	// read inputs
+	JointVector q_act(m_robot_interface_in.joint_state_act.Values);
+	JointVector tau_sens_act(m_robot_interface_in.torque_sensor_act.Values);
+	JointVector tau_motor_act(m_robot_interface_in.torque_motor_act.Values);
+
+
+	// Set robot state 
+	arc_contr_ptr->set_q_act_filtered_derivatives(q_act);
+	arc_contr_ptr->set_tau_sens(tau_sens_act);
+	arc_contr_ptr->set_tau_motor(tau_motor_act);
+
+	// run controller
+	JointVector tau_set;
+	bool return_value;
+
+	if (!iniOK) {
+		Time T_traj = 1.0;
+		JointVector q_end = q_act;
+		arc_contr_ptr->start(t, q_act, q_end, T_traj);
+		m_Trace.Log(tlVerbose, FLEAVEA "q_start=[%g %g %g %g %g %g %g]",
+		q_act(0), q_act(1), q_act(2), q_act(3), q_act(4), q_act(5), q_act(6));
+		m_Trace.Log(tlInfo, FLEAVEA "arc_contr->start() executed!", hr);
+	}
+	else {
+		return_value = arc_contr_ptr->update(t, true);
+
+		JointVector q_set = arc_contr_ptr->get_q_set();
+		m_Trace.Log(tlVerbose, FLEAVEA "q_set=[%g %g %g %g %g %g %g]",
+		q_set(0), q_set(1), q_set(2), q_set(3), q_set(4), q_set(5), q_set(6));
+
+	}
+	iniOK = true;
+
+	if (return_value)
+		tau_set = arc_contr_ptr->get_tau_act();
+	else {
+		tau_set.setZero();
+		return EXIT_FAILURE;
+	}
+
+	// robot interface outputs
+	JointVector::Map(m_robot_interface_out.torque_set.Values) = tau_set;
+	m_robot_interface_out.motion_enable = 0.0;
+	m_robot_interface_out.motion_disable = 0.0;
+	if (state_machine_ptr->is_disable_transition()) {
+		m_robot_interface_out.motion_disable = 1.0;
+	}
+	else if (state_machine_ptr->is_enable_transition()) {
+		m_robot_interface_out.motion_enable = 1.0;
+	}
+
+	// robot interface works with double: convert bool to double
+	double motor_enable = 1.0;
+	for (int i = 0; i < sizeof(m_robot_interface_out.motor_enable.Values) / sizeof(double); i++) {
+		m_robot_interface_out.motor_enable.Values[i] = motor_enable;
+	}
+
 	return hr;
 }
