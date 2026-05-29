@@ -27,6 +27,8 @@ import numpy as np
 import orcpy.core as oc
 import orcpy.robots as orco
 
+from robot_state_print import print_robot_state
+
 
 # ---------------------------------------------------------------------------
 # Lissajous geometry
@@ -217,6 +219,7 @@ def main() -> None:
         Returns the absolute robot time at which this batch ends so the caller
         can schedule the next one.
         """
+        print_robot_state(iiwa, f"Lissajous batch @ t={t_batch_start:.3f}s")
         t_arr = np.linspace(0.0, args.t_traj, args.n_points) + t_batch_start
         iiwa.send_jointspace_trajectory(
             oc.Time.convert_double_to_time_vector(t_arr), q_traj
