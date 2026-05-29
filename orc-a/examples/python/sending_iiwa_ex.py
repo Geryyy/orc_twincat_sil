@@ -5,8 +5,8 @@ import numpy as np
 import orcpy.core as oc
 import orcpy.robots as orco
 
-simulation = True
-use_quaternion = False  # If set to True, move_taskspace will be called using quaternions. Either way the same trajectory is sent.
+simulation = False
+use_quaternion = True  # If set to True, move_taskspace will be called using quaternions. Either way the same trajectory is sent.
 
 oc.log.start_logging()
 
@@ -16,7 +16,7 @@ if simulation:
     iiwa = orco.Iiwa(mjb_path)
 else:
     T_traj = oc.Time(4.0)
-    iiwa = orco.Iiwa(mjb_path, "192.168.2.3", "192.168.2.10")
+    iiwa = orco.Iiwa(mjb_path, "192.168.1.3", "192.168.1.10")
 time.sleep(0.5)
 
 q0 = np.zeros(7)

@@ -18,6 +18,7 @@ so they can be executed from any working directory (override with the
 | `simulate_kinova.py` | MuJoCo viewer loop for the Kinova controller. | `models/kinova3.mjb` | `python examples/python/simulate_kinova.py` |
 | `simulate_linear_axis.py` | MuJoCo viewer loop for the linear axis. | `models/linear_axis.mjb` | `python examples/python/simulate_linear_axis.py` |
 | `simulate_robot9dof.py` | MuJoCo viewer loop for the combined 9-DOF rig. | `models/presets/pascal_bernoulli.mjb`, plus iiwa + linear-axis MJBs | `python examples/python/simulate_robot9dof.py` |
+| `client_with_visualization.py` | Send a Lissajous trajectory to the iiwa and visualize the received RobotState as a digital twin in a passive MuJoCo viewer. | `models/iiwa_hanging.mjb` | `python examples/python/client_with_visualization.py [--robot-ip <IP>]` |
 
 Sub-folders `hybrid_force_motion/` and `orc_paper_experiments/` hold the
 scripts used in the hybrid force/motion paper experiments. They operate on
