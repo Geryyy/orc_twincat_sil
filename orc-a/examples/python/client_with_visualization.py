@@ -4,8 +4,13 @@ the received RobotState as a digital twin in a passive MuJoCo viewer.
 
 The script has two roles that run concurrently:
   1. Sender  — computes a Lissajous figure in Cartesian space, converts it to
-               joint space via IK, and continuously re-sends the trajectory so
-               the figure loops forever without interruption.
+               joint space via IK, and treats it as an endless function of
+               absolute robot time.  Every second it resends a short,
+               *overlapping* window of that loop, each starting slightly in the
+               future.  Because a fresh window is always queued and takes over
+               (with a C2-continuous hand-off) before the controller reaches
+               the previous window's zero-velocity tail, the figure loops
+               forever with no velocity jump / oscillation at the seam.
   2. Viewer  — continuously reads the RobotState streamed back by the robot /
                simulator and mirrors the actual joint positions into a passive
                MuJoCo window (no physics, kinematics only).
@@ -213,28 +218,63 @@ def main() -> None:
         model_path, ee_site, pose_traj, ee_rot, starting_q, joint_limits_deg
     )
 
-    def send_batch(t_batch_start: float) -> float:
-        """Send one period of the Lissajous trajectory starting at t_batch_start.
+    # ------------------------------------------------------------------
+    # Overlapping-window streaming parameters.
+    #
+    # Each window we send spans WINDOW seconds but is replaced after only
+    # SEND_INTERVAL seconds, so the controller only ever executes the first
+    # ~SEND_INTERVAL of it before the next window hands over.  As long as
+    # WINDOW is comfortably larger than SEND_INTERVAL the controller never
+    # reaches the window's zero-velocity tail (which the interpolator appends
+    # for safety) — that tail is what previously caused the velocity jump.
+    # ------------------------------------------------------------------
+    SEND_INTERVAL = 1.0  # resend a fresh window every second (robot time)
+    WINDOW = 2.5         # seconds of trajectory covered by each window
+    START_LEAD = 0.2     # start each window this far in the future (robot time)
+    dt = args.t_traj / args.n_points  # waypoint spacing -> window sample density
 
-        Returns the absolute robot time at which this batch ends so the caller
-        can schedule the next one.
-        """
-        print_robot_state(iiwa, f"Lissajous batch @ t={t_batch_start:.3f}s")
-        t_arr = np.linspace(0.0, args.t_traj, args.n_points) + t_batch_start
-        iiwa.send_jointspace_trajectory(
-            oc.Time.convert_double_to_time_vector(t_arr), q_traj
-        )
-        return t_batch_start + args.t_traj
-
-    # Send first batch (non-blocking — controller executes autonomously)
-    t_batch_end = send_batch(iiwa.time.to_sec() + 1.0)
-    oc.log.write_info(
-        f"Trajectory sent — {args.n_points} pts over {args.t_traj:.1f} s, looping forever."
+    # The Lissajous figure is periodic with period t_traj.  Build a closed loop
+    # (append q_traj[0] at phase = t_traj) so q_at(t) can map any absolute robot
+    # time onto the trajectory by wrapping the phase and interpolating.
+    phase_grid = np.append(
+        np.linspace(0.0, args.t_traj, args.n_points, endpoint=False), args.t_traj
     )
+    q_loop = np.vstack([q_traj, q_traj[0]])
 
-    # How many seconds before the current batch ends to send the next one.
-    # Keeps a trajectory queued on the controller at all times.
-    SEND_AHEAD = 1.0
+    # Phase reference: absolute robot time at which the figure is at phase 0.
+    t0 = iiwa.time.to_sec() + START_LEAD
+
+    def q_at(t_abs: np.ndarray) -> np.ndarray:
+        """Joint configuration(s) on the endless Lissajous at absolute time(s)."""
+        phase = np.mod(np.asarray(t_abs, dtype=float) - t0, args.t_traj)
+        return np.column_stack([np.interp(phase, phase_grid, q_loop[:, j]) for j in range(7)])
+
+    n_win = max(2, round(WINDOW / dt) + 1)  # knots per window
+
+    def send_window(now: float) -> None:
+        """Send one overlapping window of the loop, beginning just after ``now``.
+
+        The knots are snapped to the global ``t0 + k*dt`` grid, which keeps
+        consecutive windows seam-free:
+          * grid knots fall exactly on the original IK waypoints (no resampling
+            error vs. the phase-arbitrary alternative), and
+          * overlapping windows share identical knot times *and* values, so the
+            controller's per-window spline fit — and hence the C2 hand-off
+            between them — is consistent rather than wobbling each second.
+        """
+        k0 = int(np.ceil((now + START_LEAD - t0) / dt))
+        t_arr = t0 + (k0 + np.arange(n_win)) * dt
+        iiwa.send_jointspace_trajectory(
+            oc.Time.convert_double_to_time_vector(t_arr), q_at(t_arr)
+        )
+
+    # Send the first window (non-blocking — controller executes autonomously)
+    send_window(iiwa.time.to_sec())
+    t_last_send = iiwa.time.to_sec()
+    oc.log.write_info(
+        f"Streaming endless Lissajous — {WINDOW:.1f}s windows resent every "
+        f"{SEND_INTERVAL:.1f}s (period {args.t_traj:.1f}s), looping forever."
+    )
 
     # ------------------------------------------------------------------
     # Digital-twin viewer
@@ -257,12 +297,21 @@ def main() -> None:
 
         oc.log.write_info("Digital-twin viewer running — close the window to exit.")
 
+        t_last_print = iiwa.time.to_sec()
         while viewer.is_running():
             t_frame = time.time()
 
-            # Queue next batch before the current one expires
-            if iiwa.time.to_sec() >= t_batch_end - SEND_AHEAD:
-                t_batch_end = send_batch(t_batch_end)
+            # Resend an overlapping window every SEND_INTERVAL seconds, each
+            # starting slightly in the future relative to the reported robot
+            # time so it queues and hands over before the previous one ends.
+            now = iiwa.time.to_sec()
+            if now - t_last_send >= SEND_INTERVAL:
+                send_window(now)
+                t_last_send = now
+
+            if now - t_last_print >= 5.0:
+                print_robot_state(iiwa, "endless Lissajous")
+                t_last_print = now
 
             q_act = iiwa.state.q_act
             if q_act is not None:
