@@ -1,97 +1,85 @@
-# orc-iiwa-tc
+# orc-twincat-sil
 
-Implementation of ORC for Kuka LBR iiwa for TwinCAT.
+A self-contained demo of [**ORC** (OpenRobotControl)](orc-a/README.md) running
+on **TwinCAT** in hard real-time, with the robot **simulated in the loop (SIL)**
+so you can try it without any physical hardware.
 
-# Limitations
-`orc-iiwa-tc` requiress a precompiled MuJoCo model in the form of a MJB (binary file). To obtain a real-time loadable MJB file please make sure that:
-- The model ought to have exactly 7 joints, i.e., `model.nq` must be 7.
-- Make sure to build your MJB file using MuJoCo 3.3.2. Use the [mj_saveModel function](https://mujoco.readthedocs.io/en/3.3.2/APIreference/APIfunctions.html#mj-savemodel).
-- No meshes are part of your model. This is easily achievable by setting the [discardvisual flag](https://mujoco.readthedocs.io/en/3.3.2/XMLreference.html#compiler-discardvisual) inside your XML model to true.
-- More exotic features like deformable objects, height fields, etc. are not supported. 
+The ORC controller and a MuJoCo simulation of a KUKA LBR iiwa run **together on
+a TwinCAT target at 8 kHz**. A Python client (typically in the ORC devcontainer)
+streams trajectories to the target and visualizes the returned robot state as a
+digital twin:
 
-# Setup
-For using ORC on Kuka LBRiiwa open the `IiwaControl` project file.
+```
+┌──────────────────────────┐         UDP          ┌────────────────────────────────────────────┐
+│  Client (devcontainer)   │  trajectory  ─────▶  │  TwinCAT target (hard real-time, 8 kHz)      │
+│  orcpy / Python          │   :10000             │                                              │
+│  client_with_            │                      │   UdpInterface  ──▶  OrcController (ORC)      │
+│  visualization.py        │  RobotState  ◀─────  │        ▲                    │ torque         │
+│  (digital-twin viewer)   │   :11000             │        └── RobotSimulation ◀┘ (MuJoCo)       │
+└──────────────────────────┘                      └────────────────────────────────────────────┘
+```
 
-It is necessary to change the project variant according to the robot setup. 
+Because ORC keeps identical user-level code in simulation and on hardware,
+this same project becomes a real-robot deployment by swapping the simulation
+module for EtherCAT motor drives — see the migration notes in the
+[IiwaControl README](IiwaControl/README.md#migrating-to-a-real-robot).
 
-- **TESLA**: `KUKA_Robot_Controller`
-- **BERNOULLI / PASCAL**: `Robot_Frame`
+## Repository layout
 
-<div style="text-align: center;">
-    <img src="img/variant.png" alt="image" width="750">
-</div>
+| Path | What it is |
+| --- | --- |
+| [`IiwaControl/`](IiwaControl/) | The TwinCAT solution (controller + simulation + UDP interface). **Start here** — see its [README](IiwaControl/README.md) for full setup and run instructions. |
+| [`orc-a/`](orc-a/) | The ORC library (git submodule): C++ control library, `orcpy` Python bindings, and the [Python client examples](orc-a/examples/python/README.md). |
+| [`mujoco_tc/`](mujoco_tc/) | Real-time-safe port of the MuJoCo physics engine, used by the in-TwinCAT robot simulation. |
+| [`mujoco_models/`](mujoco_models/) | Precompiled MuJoCo models (`.mjb`) for the iiwa and linear axis (see [model constraints](#mujoco-model-constraints)). |
+| [`TcIntrin/`](TcIntrin/) | TwinCAT math intrinsics headers (per toolset: v140/v141/v142). |
+| [`eigen_import_libs/`](eigen_import_libs/) | Eigen compatibility shims for the TwinCAT C++ toolchain. |
+| [`img/`](img/) | Screenshots used by the documentation. |
 
-Connecting the robot to the TwinCat Environment is done at the `I/O -> Device` section:
+## TwinCAT solution modules
 
-- Variant: **KUKA_Robot_Controller**
-    - Device 2: `Robot`
-    - Device 3: `Ethernet 7 (ROS)`
-    - Device 4: `MFT`
-- Variant: **Robot_Frame**
-    - Device 1: `Patch panel 1 (Robot)`
-    - Device 3: `Patch panel 2 (ROS)`
+The real-time control loop in [`IiwaControl/`](IiwaControl/) is built from three
+C++ modules running in the same 125 µs (8 kHz) task:
 
-<div style="text-align: center;">
-    <img src="img/devices.png" alt="image" width="750">
-</div>
+| Module | Role |
+| --- | --- |
+| `UdpInterface` | UDP endpoint — receives trajectories, sends back `RobotState`. |
+| `OrcController` | The ORC computed-torque controller; produces joint torques. |
+| `RobotSimulation` | MuJoCo simulation of the iiwa; integrates torques into joint state (replace with EtherCAT drives for a real robot). |
 
-The UDP connection need to be set to the specific ip adress for communication with orcpy:
+## Getting started
 
-- **BERNOULLI**: 192.168.1.3
-- **PASCAL**: 192.168.2.3
-- **TESLA**: 192.168.1.3
+1. **Set up and build the TwinCAT project.** Follow the
+   [IiwaControl README](IiwaControl/README.md) — it covers TwinCAT/C++
+   installation, the C++ project configuration, network/IP settings, building,
+   and activating the configuration.
+2. **Run the Python client.** From the ORC devcontainer, stream a trajectory
+   and watch the digital twin:
+   ```bash
+   python examples/python/client_with_visualization.py \
+       --robot-ip <twincat-target-ip> --local-ip <client-ip>
+   ```
+   See [the run section](IiwaControl/README.md#5-run-the-python-client-with-visualization)
+   for IP details, and the [ORC README](orc-a/README.md) for the devcontainer.
 
-<div style="text-align: center;">
-    <img src="img/udp.png" alt="image" width="750">
-</div>
+## MuJoCo model constraints
 
-# Build
-Building orc library and TwinCAT environment can be done at `Build -> Build Solution`. If the build completed, but something is still not working, a `Rebuild / Clean` might solve the problem.
+The in-TwinCAT simulation loads a precompiled MuJoCo binary (`.mjb`). To be
+real-time-loadable a model must:
 
-<div style="text-align: center;">
-    <img src="img/build.png" alt="image" width="750">
-</div>
+- have exactly 7 joints (`model.nq == 7`);
+- be built with **MuJoCo 3.3.2** via
+  [`mj_saveModel`](https://mujoco.readthedocs.io/en/3.3.2/APIreference/APIfunctions.html#mj-savemodel);
+- contain no meshes — set
+  [`discardvisual`](https://mujoco.readthedocs.io/en/3.3.2/XMLreference.html#compiler-discardvisual)
+  to `true`;
+- avoid exotic features (deformable objects, height fields, etc.), which are
+  not supported.
 
-To start the whole TwinCat Configuration press `Command Activate configuration` Button. This will build the environment (if not already done) and downloads the realtime configuration. Afterward the realtime environment is started.
+Copy the chosen `.mjb` into `C:\TwinCAT\3.1\Boot\` so the real-time module can
+load it.
 
-<div style="text-align: center;">
-    <img src="img/activate.png" alt="image" width="750">
-</div>
+## License
 
-# Enable the robot
-To activate the robot the Human Machine Interaface (HMI) must be activate. Activate it at `Solution Explorer -> ORC_HMI -> Desktop.view -> (right click) -> Show in Live-View...`.
-
-<div style="text-align: center;">
-    <img src="img/desktop_view.png" alt="image" width="350">
-</div>
-
-HMI give the option to enable the linear axes if used in the `Robot_Frame` configuration. To control the robot it need to be enabled via `Motion Enable` button. After driving the robot disable it with `Motion Disable` button! The robots end effector lights ``green`` if the robot is able to move, otherwise it lights ``blue``! Move to candle moves the robot into the zero joint position.
-<div style="text-align: center;">
-    <img src="img/HMI.png" alt="image" width="750">
-</div>
-
-# Parameter configuration
-
-There are some parameters you can adapt. To do this, double click on the C++ module you want to configure and navigate to the Parameter (Init) tab. Short explanations can be found in the *Comment* section of the parameters. 
-
-**Only change parameters, when absolutely certain it is necessary!!**
-
-For the 9DOF robot most parameters can be found in the ```kuka_module``` module. 
-
-<div style="text-align: center;">
-    <img src="img/parameters_kuka_module.png" alt="image" width="750">
-</div>
-
-**```LinearAxisParameters.PositionSoftReserve```**: Specifies the position soft reserve added as *padding* to the workspace limits for both x and y axes. Changing the later described workspace limits is therefore to be done with caution, and in combination with changing this parameter.
-
-**```WorkspaceLimitPreset```** and **```CustomWorkspaceLimits```**: With ```WorkspaceLimitPreset``` a preset workspace can be chosen from the options *full*, *leftOnly*, *rightOnly*, and *custom*. If the TCP leaves the workspace, a soft stop is initiated. In case *custom* has been selected, ```CustomWorkspaceLimits``` apply. The other presets translate to:
-
-| Preset    | X axis range (m) | Y axis range (m) | Z axis range (m) |
-|-----------|------------------|------------------|------------------|
-| full      | [0.39, 2.6]      | [0.24, 1.685]    | [0, 1.58]        |
-| leftOnly  | [1.64, 2.6]      | [0.24, 1.685]    | [0, 1.58]        |
-| rightOnly | [0.39, 1.28]     | [0.24 1.685]     | [0, 1.58]        |
-
-These limits are taken from an internal linear-axes guide.
-
-**```AxisForceLimits```** and **```AxisForceSaturation```**: These two parameters only apply, if the mode of operation is set to torque.
+ORC is distributed under the BSD-3-Clause license; see
+[`orc-a/LICENSE`](orc-a/LICENSE).
