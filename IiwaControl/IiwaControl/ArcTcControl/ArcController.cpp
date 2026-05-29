@@ -313,6 +313,9 @@ HRESULT CArcController::CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULONG
 	}
 
 	/* Control runs in PostCyclic! */
+	
+
+
 	/* UDP output */
 	if (m_spudp_tx_msg != NULL) {
 		m_spudp_tx_msg->request = true;
@@ -405,14 +408,6 @@ HRESULT CArcController::PostCyclicUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, 
 	JointVector tau_sens_act(m_robot_interface_in.torque_sensor_act.Values);
 	JointVector tau_motor_act(m_robot_interface_in.torque_motor_act.Values);
 
-	bool enable_signal = m_Inputs.enable && ((m_Outputs.ncon == 0 && !m_Inputs.omitCCD) || m_Inputs.omitCCD);
-	bool disable_signal = m_Inputs.disable || ((m_Outputs.ncon > 0) && !m_Inputs.omitCCD);	// stop robot in case of collision
-
-	state_machine_ptr->run(m_robot_interface_in.application_button == 1.0,
-		m_robot_interface_in.motion_enabled,
-		enable_signal,
-		disable_signal,	
-		m_Inputs.move_candle);
 
 	// Set robot state 
 	arc_contr_ptr->set_q_act_filtered_derivatives(q_act);
@@ -422,33 +417,24 @@ HRESULT CArcController::PostCyclicUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, 
 	// run controller
 	JointVector tau_set;
 	bool return_value;
-	if (state_machine_ptr->is_enable_transition()) {
+
+	if (!iniOK) {
 		Time T_traj = 1.0;
 		JointVector q_end = q_act;
 		arc_contr_ptr->start(t, q_act, q_end, T_traj);
 		m_Trace.Log(tlInfo, FLEAVEA "arc_contr->start() executed!", hr);
 	}
-	// select desired torque based on state
-	if (state_machine_ptr->get_state() == orc::logic::RobotStatus::ENABLE) {
-		if (state_machine_ptr->is_move_candle_transition()) {
-			JointVector q_candle = JointVector::Zero();
-			Time t_candle = t + Time(10, 0);
-			arc_contr_ptr->add_jointspace_trajectory(q_act, q_candle, t, t_candle);
-		}
-		return_value = arc_contr_ptr->update(t, false);
-	}
-	else if (state_machine_ptr->get_state() == orc::logic::RobotStatus::GRAVCOMP) {
-		return_value = arc_contr_ptr->update(t, true);
-	}
 	else {
-		// run gravitation compensation also in off state to see torque before enable
 		return_value = arc_contr_ptr->update(t, true);
 	}
+	iniOK = true;
 
 	if (return_value)
 		tau_set = arc_contr_ptr->get_tau_act();
-	else
+	else {
+		tau_set.setZero();
 		return EXIT_FAILURE;
+	}
 
 	// robot interface outputs
 	JointVector::Map(m_robot_interface_out.torque_set.Values) = tau_set;
