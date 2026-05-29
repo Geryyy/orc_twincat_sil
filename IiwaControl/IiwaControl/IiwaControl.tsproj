@@ -2,7 +2,7 @@
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.55">
 	<DataTypes>
 		<DataType>
-			<Name GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Name>
+			<Name GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="orc_control">Joints_t</Name>
 			<BitSize>448</BitSize>
 			<SubItem>
 				<Name>Values</Name>
@@ -818,12 +818,12 @@
 			</Tasks>
 		</System>
 		<Cpp>
-			<Project GUID="{B25BA40E-3715-4665-91B4-859B478440AB}" Name="ArcTcControl" PrjFilePath="ArcTcControl\ArcTcControl.vcxproj" TmcFilePath="ArcTcControl\ArcTcControl.tmc">
-				<Instance Id="#x01010010" KeepUnrestoredLinks="2" ClassFactoryId="C++ Module Vendor|ArcTcControl|0.0.0.1">
-					<Name>ArcTcControl</Name>
+			<Project GUID="{B25BA40E-3715-4665-91B4-859B478440AB}" Name="OrcTcControl" PrjFilePath="OrcTcControl\OrcTcControl.vcxproj" TmcFilePath="OrcTcControl\OrcTcControl.tmc">
+				<Instance Id="#x01010010" KeepUnrestoredLinks="2" ClassFactoryId="C++ Module Vendor|OrcTcControl|0.0.0.1">
+					<Name>OrcTcControl</Name>
 					<TmcDesc GUID="{E2BD113C-DDF3-4A93-889C-9C668B2AD149}">
-						<Name>ArcController</Name>
-						<CLSID ClassFactory="ArcTcControl">{E2BD113C-DDF3-4A93-889C-9C668B2AD149}</CLSID>
+						<Name>OrcController</Name>
+						<CLSID ClassFactory="OrcTcControl">{E2BD113C-DDF3-4A93-889C-9C668B2AD149}</CLSID>
 						<Licenses>
 							<License>
 								<LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
@@ -964,19 +964,19 @@
 								<Symbol>
 									<Name>joint_state_act</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>0</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>torque_sensor_act</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>448</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>torque_motor_act</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>896</BitOffs>
 								</Symbol>
 								<Symbol>
@@ -1012,13 +1012,13 @@
 								<Symbol>
 									<Name>torque_set</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>128</BitOffs>
 								</Symbol>
 								<Symbol>
 									<Name>motor_enable</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>576</BitOffs>
 								</Symbol>
 							</DataArea>
@@ -1030,37 +1030,37 @@
 								<Symbol CreateSymbol="true">
 									<Name>q_act</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>0</BitOffs>
 								</Symbol>
 								<Symbol CreateSymbol="true">
 									<Name>q_dot_act</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>448</BitOffs>
 								</Symbol>
 								<Symbol CreateSymbol="true">
 									<Name>q_set</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>896</BitOffs>
 								</Symbol>
 								<Symbol CreateSymbol="true">
 									<Name>q_dot_set</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>1344</BitOffs>
 								</Symbol>
 								<Symbol CreateSymbol="true">
 									<Name>q_dotdot_set</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>1792</BitOffs>
 								</Symbol>
 								<Symbol CreateSymbol="true">
 									<Name>q_d_NS</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>2240</BitOffs>
 								</Symbol>
 								<Symbol CreateSymbol="true">
@@ -1084,7 +1084,7 @@
 								<Symbol CreateSymbol="true">
 									<Name>e_jointspace</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>3904</BitOffs>
 								</Symbol>
 								<Symbol CreateSymbol="true">
@@ -1096,7 +1096,7 @@
 								<Symbol CreateSymbol="true">
 									<Name>tau_set</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>4736</BitOffs>
 								</Symbol>
 								<Symbol CreateSymbol="true">
@@ -1297,7 +1297,7 @@
 								<Symbol>
 									<Name>joint_torque</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>0</BitOffs>
 								</Symbol>
 							</DataArea>
@@ -1309,7 +1309,7 @@
 								<Symbol>
 									<Name>joint_state</Name>
 									<BitSize>448</BitSize>
-									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">acin_control.Joints_t</BaseType>
+									<BaseType GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}">orc_control.Joints_t</BaseType>
 									<BitOffs>0</BitOffs>
 								</Symbol>
 							</DataArea>
@@ -1563,23 +1563,23 @@
 							<DataPointer>
 								<PTCID>#x00000002</PTCID>
 								<Name>torque</Name>
-								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Type>
+								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="orc_control">Joints_t</Type>
 							</DataPointer>
 							<DataPointer>
 								<PTCID>#x00000003</PTCID>
 								<Name>torque_sensor</Name>
-								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Type>
+								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="orc_control">Joints_t</Type>
 							</DataPointer>
 							<DataPointer>
 								<PTCID>#x00000006</PTCID>
 								<Name>torque_motor</Name>
-								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Type>
+								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="orc_control">Joints_t</Type>
 								<ContextId>1</ContextId>
 							</DataPointer>
 							<DataPointer>
 								<PTCID>#x00000007</PTCID>
 								<Name>joint_state</Name>
-								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Type>
+								<Type GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="orc_control">Joints_t</Type>
 								<ContextId>1</ContextId>
 							</DataPointer>
 						</DataPointers>
@@ -2183,7 +2183,7 @@
 		</Io>
 	</Project>
 	<Mappings>
-		<OwnerA Name="TIXC^ArcTcControl^ArcTcControl">
+		<OwnerA Name="TIXC^OrcTcControl^OrcTcControl">
 			<OwnerB Name="TIXC^RoboSimFast^RoboSimFast_Obj1 (RobotSimulation)">
 				<Link VarA="robot_interface_in^joint_state_act" VarB="Data Pointer^joint_state"/>
 				<Link VarA="robot_interface_in^torque_motor_act" VarB="Data Pointer^torque_motor"/>

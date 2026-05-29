@@ -44,14 +44,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="OrcController.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="RobotSimulation.h" />
+    <ClInclude Include="StateMachine.h" />
     <ClInclude Include="TcPch.h" />
-    <ClInclude Include="RoboSimFastClassFactory.h" />
-    <ClInclude Include="RoboSimFastCtrl.h" />
-    <ClInclude Include="RoboSimFastDriver.h" />
-    <ClInclude Include="RoboSimFastInterfaces.h" />
-    <ClInclude Include="RoboSimFastServices.h" />
+    <ClInclude Include="OrcTcControlClassFactory.h" />
+    <ClInclude Include="OrcTcControlCtrl.h" />
+    <ClInclude Include="OrcTcControlDriver.h" />
+    <ClInclude Include="OrcTcControlInterfaces.h" />
+    <ClInclude Include="OrcTcControlServices.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\mujoco_tc\include\mujoco_tc\engine_collision_box_tc.cpp" />
@@ -74,8 +75,8 @@
     <ClCompile Include="..\..\..\mujoco_tc\src\mujoco_tc.cpp" />
     <ClCompile Include="..\..\..\mujoco_tc\src\mujoco_tc_calculations.cpp" />
     <ClCompile Include="..\..\..\orc-a\src\Logger.cpp" />
-    <ClCompile Include="..\OrcTcControl\eigen_tc.cpp" />
-    <ClCompile Include="RobotSimulation.cpp" />
+    <ClCompile Include="OrcController.cpp" />
+    <ClCompile Include="eigen_tc.cpp" />
     <ClCompile Include="TcPch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">Create</PrecompiledHeader>
@@ -88,8 +89,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT OS (x64)'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="RoboSimFastClassFactory.cpp" />
-    <ClCompile Include="RoboSimFastCtrl.cpp">
+    <ClCompile Include="OrcTcControlClassFactory.cpp" />
+    <ClCompile Include="OrcTcControlCtrl.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'">true</ExcludedFromBuild>
@@ -97,7 +98,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT OS (x64)'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="RoboSimFastDriver.cpp">
+    <ClCompile Include="OrcTcControlDriver.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x64)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'">true</ExcludedFromBuild>
@@ -105,7 +106,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT UM (x64)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT OS (x64)'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="RoboSimFastMain.cpp">
+    <ClCompile Include="OrcTcControlMain.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x64)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">true</ExcludedFromBuild>
@@ -115,7 +116,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x86)'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="RoboSimFastW32.cpp">
+    <ClCompile Include="OrcTcControlW32.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'">true</ExcludedFromBuild>
@@ -125,8 +126,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="RoboSimFast.rc" />
-    <ResourceCompile Include="RoboSimFastW32.rc">
+    <ResourceCompile Include="OrcTcControl.rc" />
+    <ResourceCompile Include="OrcTcControlW32.rc">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'">true</ExcludedFromBuild>
@@ -136,11 +137,11 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="RoboSimFastW32.def" />
-    <None Include="RoboSimFast.tmc" />
+    <None Include="OrcTcControlW32.def" />
+    <None Include="OrcTcControl.tmc" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="RoboSimFastW32.idl">
+    <Midl Include="OrcTcControlW32.idl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x86)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT OS (x64)'">true</ExcludedFromBuild>
@@ -150,11 +151,11 @@
     </Midl>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5753f412-f359-4846-9349-96fca6519fe4}</ProjectGuid>
-    <RootNamespace>RoboSimFast</RootNamespace>
+    <ProjectGuid>{b25ba40e-3715-4665-91b4-859b478440ab}</ProjectGuid>
+    <RootNamespace>OrcTcControl</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <AutomaticRetargetPlatformVersion>true</AutomaticRetargetPlatformVersion>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Label="TcGeneral">
     <TcGeneralUseTmx>true</TcGeneralUseTmx>
@@ -172,9 +173,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'" Label="Configuration">
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'" Label="Configuration">
-    <PlatformToolset>v142</PlatformToolset>
-  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'" Label="Configuration" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT RT (x64)'" Label="Configuration">
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
@@ -209,7 +208,10 @@
   </PropertyGroup>
   <PropertyGroup Label="TcSign">
     <TcSignTwinCatCertName>acin.tccert</TcSignTwinCatCertName>
+    <TcSignTwinCatCertPW>
+    </TcSignTwinCatCertPW>
     <TcSignTwinCatVerbose>true</TcSignTwinCatVerbose>
+    <TcSignWindowsSha1Verbose>true</TcSignWindowsSha1Verbose>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TwinCAT UM (x86)'">
   </ItemDefinitionGroup>
@@ -227,10 +229,16 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|TwinCAT RT (x64)'">
     <ClCompile>
+      <AdditionalIncludeDirectories>.\..\..\..\TcIntrin\v141\Include;$(EIGENDIR);.\..\..\..\mujoco_tc\src;.\..\..\..\mujoco_tc\include;.\..\..\..\eigen_import_libs;.\..\..\..\orc-a\third_party\flatbuffers\include;.\..\..\..\orc-a\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TCMATH_BLOCK_STANDARDLIB=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>.\..\..\..\orc-a\include;.\..\..\..\orc-a\third_party\flatbuffers\include;.\..\..\..\eigen_import_libs;.\..\..\..\mujoco_tc\include;.\..\..\..\mujoco_tc\src;$(EIGENDIR);.\..\..\..\TcIntrin\v141\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>TCMATH_BLOCK_STANDARDLIB=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>MaxSpeed</Optimization>
+      <FloatingPointExceptions>
+      </FloatingPointExceptions>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

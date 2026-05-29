@@ -59,7 +59,7 @@ To start the whole TwinCat Configuration press `Command Activate configuration` 
 </div>
 
 # Enable the robot
-To activate the robot the Human Machine Interaface (HMI) must be activate. Activate it at `Solution Explorer -> ARC_HMI -> Desktop.view -> (right click) -> Show in Live-View...`.
+To activate the robot the Human Machine Interaface (HMI) must be activate. Activate it at `Solution Explorer -> ORC_HMI -> Desktop.view -> (right click) -> Show in Live-View...`.
 
 <div style="text-align: center;">
     <img src="img/desktop_view.png" alt="image" width="350">
@@ -92,6 +92,6 @@ For the 9DOF robot most parameters can be found in the ```kuka_module``` module.
 | leftOnly  | [1.64, 2.6]      | [0.24, 1.685]    | [0, 1.58]        |
 | rightOnly | [0.39, 1.28]     | [0.24 1.685]     | [0, 1.58]        |
 
-These limits are taken from the [Linear axes guide on TU coLAB](https://colab.tuwien.ac.at/display/ACINwiki/Linear+axes).
+These limits are taken from an internal linear-axes guide.
 
 **```AxisForceLimits```** and **```AxisForceSaturation```**: These two parameters only apply, if the mode of operation is set to torque.

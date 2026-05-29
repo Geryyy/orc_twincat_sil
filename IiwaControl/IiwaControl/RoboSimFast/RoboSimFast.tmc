@@ -3,7 +3,7 @@
   <Vendor>
     <Name>C++ Module Vendor</Name>
   </Vendor>
-  <DataTypes ><DataType><Name GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="acin_control">Joints_t</Name><BitSize>448</BitSize><SubItem><Name>Values</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>7</Elements></ArrayInfo><BitSize>448</BitSize><BitOffs>0</BitOffs></SubItem><Hides><Hide GUID="{0822AD77-4119-4C86-8375-B6841BB83D41}" /><Hide GUID="{51696A3A-A97B-440E-966D-C21D4FFEE6BE}" /><Hide GUID="{5D9DCCE9-37BA-4FA8-B0E0-2E8E6EFCE8FE}" /><Hide GUID="{786EC6C1-D1F7-45C1-93FC-98398C725739}" /><Hide GUID="{54DFF67E-5B81-483E-8FE7-813C352DE903}" /><Hide GUID="{AF01559F-67F9-4F2E-8E90-45B2B3057FD1}" /><Hide GUID="{77095CD1-867F-43E5-A6C1-FC1B210E6A60}" /><Hide GUID="{1EC5996C-C82F-4635-A3FA-47FC71D27B40}" /><Hide GUID="{C548D0DB-E9E5-4009-A9B6-A02882E5E6D3}" /><Hide GUID="{E451BC88-E750-4AE4-B108-168F6D350714}" /><Hide GUID="{F7EDCE3A-569F-4D8C-9790-031C8B4B24E4}" /></Hides></DataType></DataTypes>
+  <DataTypes ><DataType><Name GUID="{1247A85A-0A92-414F-B870-2E17BF811B63}" Namespace="orc_control">Joints_t</Name><BitSize>448</BitSize><SubItem><Name>Values</Name><Type GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</Type><ArrayInfo><LBound>0</LBound><Elements>7</Elements></ArrayInfo><BitSize>448</BitSize><BitOffs>0</BitOffs></SubItem><Hides><Hide GUID="{0822AD77-4119-4C86-8375-B6841BB83D41}" /><Hide GUID="{51696A3A-A97B-440E-966D-C21D4FFEE6BE}" /><Hide GUID="{5D9DCCE9-37BA-4FA8-B0E0-2E8E6EFCE8FE}" /><Hide GUID="{786EC6C1-D1F7-45C1-93FC-98398C725739}" /><Hide GUID="{54DFF67E-5B81-483E-8FE7-813C352DE903}" /><Hide GUID="{AF01559F-67F9-4F2E-8E90-45B2B3057FD1}" /><Hide GUID="{77095CD1-867F-43E5-A6C1-FC1B210E6A60}" /><Hide GUID="{1EC5996C-C82F-4635-A3FA-47FC71D27B40}" /><Hide GUID="{C548D0DB-E9E5-4009-A9B6-A02882E5E6D3}" /><Hide GUID="{E451BC88-E750-4AE4-B108-168F6D350714}" /><Hide GUID="{F7EDCE3A-569F-4D8C-9790-031C8B4B24E4}" /></Hides></DataType></DataTypes>
   <Groups>
     <Group SortOrder="701">
       <Name>C++</Name>
@@ -76,13 +76,13 @@
         <DataPointer>
           <PTCID>#x00000002</PTCID>
           <Name>torque</Name>
-          <Type GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</Type>
+          <Type GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="orc_control">Joints_t</Type>
         </DataPointer>
         <DataPointer>
           <PTCID>#x00000003</PTCID>
           <Name>torque_sensor</Name>
-          <Type GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</Type>
-        </DataPointer><DataPointer><PTCID>#x00000006</PTCID><Name>torque_motor</Name><Type GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</Type><ContextId>1</ContextId></DataPointer><DataPointer><PTCID>#x00000007</PTCID><Name>joint_state</Name><Type GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="acin_control">Joints_t</Type><ContextId>1</ContextId></DataPointer>
+          <Type GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="orc_control">Joints_t</Type>
+        </DataPointer><DataPointer><PTCID>#x00000006</PTCID><Name>torque_motor</Name><Type GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="orc_control">Joints_t</Type><ContextId>1</ContextId></DataPointer><DataPointer><PTCID>#x00000007</PTCID><Name>joint_state</Name><Type GUID="{1247a85a-0a92-414f-b870-2e17bf811b63}" Namespace="orc_control">Joints_t</Type><ContextId>1</ContextId></DataPointer>
       </DataPointers>
       <Deployment />
     </Module>

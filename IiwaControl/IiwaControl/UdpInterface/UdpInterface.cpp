@@ -266,7 +266,7 @@ HRESULT CUdpInterface::CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULONG_
 		hr = m_spUdpProt->SendData(client_ipaddr, orc::robots::Iiwa::CLIENT_PORT, orc::robots::Iiwa::SERVER_PORT, msg_size, &(m_Iiwa_Inputs.tx_msg.data[0]), true);
 		hr = m_spUdpProt->SendData(client_ipaddr, orc::robots::Iiwa::CLIENT_PORT + 100, orc::robots::Iiwa::SERVER_PORT + 100, msg_size, &(m_Iiwa_Inputs.tx_msg.data[0]), true);
 		const ULONG ipAddr = client_ipaddr;
-		//m_Trace.Log(tlInfo, FLEAVEA "ARC Send Data: IP: %d.%d.%d.%d udpSrcPort: %d DataSize: %d (hr2=%x) \n", ((PBYTE)&ipAddr)[3], ((PBYTE)&ipAddr)[2], ((PBYTE)&ipAddr)[1], ((PBYTE)&ipAddr)[0], orc::robots::Iiwa::SERVER_PORT, msg_size, hr);
+		//m_Trace.Log(tlInfo, FLEAVEA "ORC Send Data: IP: %d.%d.%d.%d udpSrcPort: %d DataSize: %d (hr2=%x) \n", ((PBYTE)&ipAddr)[3], ((PBYTE)&ipAddr)[2], ((PBYTE)&ipAddr)[1], ((PBYTE)&ipAddr)[0], orc::robots::Iiwa::SERVER_PORT, msg_size, hr);
 	}
 	
 	// SIL - send torque setpoint
@@ -386,7 +386,7 @@ HRESULT CUdpInterface::ReceiveData(ULONG ipAddr, USHORT udpDestPort, USHORT udpS
 		//m_Iiwa_Outputs.rx_msg.size = sizeof(m_Iiwa_Outputs.rx_msg.data);
 		//memcpy(&(m_Iiwa_Outputs.rx_msg.data[0]), pData, sizeof(m_Iiwa_Outputs.rx_msg.data));
 
-		m_Trace.Log(tlInfo, FLEAVEA "ARC Trajectory received: IP: %d.%d.%d.%d udpSrcPort: %d DataSize: %d (hr2=%x) \n", ((PBYTE)&ipAddr)[3], ((PBYTE)&ipAddr)[2], ((PBYTE)&ipAddr)[1], ((PBYTE)&ipAddr)[0], udpSrcPort, nData, hr);
+		m_Trace.Log(tlInfo, FLEAVEA "ORC Trajectory received: IP: %d.%d.%d.%d udpSrcPort: %d DataSize: %d (hr2=%x) \n", ((PBYTE)&ipAddr)[3], ((PBYTE)&ipAddr)[2], ((PBYTE)&ipAddr)[1], ((PBYTE)&ipAddr)[0], udpSrcPort, nData, hr);
 
 		// move received data into iiwa_msg_buffer
 		if(iiwa_buf_write_index < (MSG_BUFFER_LEN-1)){
@@ -397,11 +397,11 @@ HRESULT CUdpInterface::ReceiveData(ULONG ipAddr, USHORT udpDestPort, USHORT udpS
 				memcpy(&(iiwa_msg_buffer[iiwa_buf_write_index].data), pData, nData);
 			}
 			else {
-				m_Trace.Log(tlInfo, FLEAVEA "ARC Trajectory received: Too much data received! Msg ignored! \n");
+				m_Trace.Log(tlInfo, FLEAVEA "ORC Trajectory received: Too much data received! Msg ignored! \n");
 			}
 		}
 		else {
-			m_Trace.Log(tlInfo, FLEAVEA "ARC Trajectory received: Msg Buffer full! Msg ignored! \n");
+			m_Trace.Log(tlInfo, FLEAVEA "ORC Trajectory received: Msg Buffer full! Msg ignored! \n");
 		}
 		
 		break;

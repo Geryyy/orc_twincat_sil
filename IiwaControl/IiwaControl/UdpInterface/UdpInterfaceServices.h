@@ -44,10 +44,10 @@ typedef struct _udp_msg
 
 #if !defined(_TC_TYPE_1247A85A_0A92_414F_B870_2E17BF811B63_INCLUDED_)
 #define _TC_TYPE_1247A85A_0A92_414F_B870_2E17BF811B63_INCLUDED_
-typedef struct _acin_control_Joints_t
+typedef struct _orc_control_Joints_t
 {
 	double Values[7];
-} acin_control_Joints_t, *Pacin_control_Joints_t;
+} orc_control_Joints_t, *Porc_control_Joints_t;
 #endif // !defined(_TC_TYPE_1247A85A_0A92_414F_B870_2E17BF811B63_INCLUDED_)
 
 #if !defined(_TC_TYPE_18071995_0000_0000_0000_00000000003E_INCLUDED_)
@@ -80,12 +80,12 @@ typedef struct _UdpInterfaceIiwa_Outputs
 
 typedef struct _UdpInterfaceIiwa_Sil_Input
 {
-	acin_control_Joints_t joint_torque;
+	orc_control_Joints_t joint_torque;
 } UdpInterfaceIiwa_Sil_Input, *PUdpInterfaceIiwa_Sil_Input;
 
 typedef struct _UdpInterfaceIiwa_Sil_Output
 {
-	acin_control_Joints_t joint_state;
+	orc_control_Joints_t joint_state;
 } UdpInterfaceIiwa_Sil_Output, *PUdpInterfaceIiwa_Sil_Output;
 
 #pragma pack(push,1)

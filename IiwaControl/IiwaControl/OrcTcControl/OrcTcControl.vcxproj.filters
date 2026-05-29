@@ -2,25 +2,25 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{89ce78ad-eb19-4ef4-aa6d-6199c32a954d}</UniqueIdentifier>
+      <UniqueIdentifier>{2b06c077-ff83-4ec7-917d-a81f26a5b594}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{f5b1941c-f3fb-429b-ba9c-53bb17dfef12}</UniqueIdentifier>
+      <UniqueIdentifier>{e3f19da1-5399-44da-99af-161917a471df}</UniqueIdentifier>
     </Filter>
     <Filter Include="TwinCAT UM Files">
-      <UniqueIdentifier>{29c3b8f7-f373-42e7-bd11-943af36ec191}</UniqueIdentifier>
+      <UniqueIdentifier>{b7bc5fe1-5dd9-4226-abdf-818ed58e9b7b}</UniqueIdentifier>
     </Filter>
     <Filter Include="TwinCAT RT Files">
-      <UniqueIdentifier>{3f2e1947-50a3-4600-afc0-6f1c82d2459b}</UniqueIdentifier>
+      <UniqueIdentifier>{ef951b91-bf4b-42c9-9fa1-e9e95888a960}</UniqueIdentifier>
     </Filter>
     <Filter Include="TwinCAT OS Files">
-      <UniqueIdentifier>{5856ca23-37fd-4111-bf0f-808de751e6d9}</UniqueIdentifier>
+      <UniqueIdentifier>{096d3d22-b097-4c50-a58e-8b6c1bea8605}</UniqueIdentifier>
     </Filter>
     <Filter Include="TMC Files">
-      <UniqueIdentifier>{5bad19d6-0476-4114-8bf2-1e7b2579b181}</UniqueIdentifier>
+      <UniqueIdentifier>{73917f90-27ad-46a4-8247-633df1b5b686}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\mujoco_tc">
-      <UniqueIdentifier>{287b62f3-d4d1-453e-91c7-cbdb2a9ebecc}</UniqueIdentifier>
+      <UniqueIdentifier>{fb50a6f9-6ad6-4e2a-baf9-7dde2726ec0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,22 +30,25 @@
     <ClInclude Include="TcPch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RoboSimFastClassFactory.h">
+    <ClInclude Include="OrcTcControlClassFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RoboSimFastInterfaces.h">
+    <ClInclude Include="OrcTcControlInterfaces.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RoboSimFastServices.h">
+    <ClInclude Include="OrcTcControlServices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RoboSimFastCtrl.h">
+    <ClInclude Include="OrcTcControlCtrl.h">
       <Filter>TwinCAT UM Files</Filter>
     </ClInclude>
-    <ClInclude Include="RoboSimFastDriver.h">
+    <ClInclude Include="OrcTcControlDriver.h">
       <Filter>TwinCAT RT Files</Filter>
     </ClInclude>
-    <ClInclude Include="RobotSimulation.h">
+    <ClInclude Include="OrcController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,28 +56,28 @@
     <ClCompile Include="TcPch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RoboSimFastClassFactory.cpp">
+    <ClCompile Include="OrcTcControlClassFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RoboSimFastCtrl.cpp">
+    <ClCompile Include="OrcTcControlCtrl.cpp">
       <Filter>TwinCAT UM Files</Filter>
     </ClCompile>
-    <ClCompile Include="RoboSimFastW32.cpp">
+    <ClCompile Include="OrcTcControlW32.cpp">
       <Filter>TwinCAT UM Files</Filter>
     </ClCompile>
-    <ClCompile Include="RoboSimFastDriver.cpp">
+    <ClCompile Include="OrcTcControlDriver.cpp">
       <Filter>TwinCAT RT Files</Filter>
     </ClCompile>
-    <ClCompile Include="RoboSimFastMain.cpp">
+    <ClCompile Include="OrcTcControlMain.cpp">
       <Filter>TwinCAT OS Files</Filter>
     </ClCompile>
-    <ClCompile Include="RobotSimulation.cpp">
+    <ClCompile Include="OrcController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mujoco_tc\include\mujoco_tc\engine_collision_box_tc.cpp">
+    <ClCompile Include="..\..\..\mujoco_tc\include\mujoco_tc\engine_collision_convex_tc.cpp">
       <Filter>Source Files\mujoco_tc</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mujoco_tc\include\mujoco_tc\engine_collision_convex_tc.cpp">
+    <ClCompile Include="..\..\..\mujoco_tc\include\mujoco_tc\engine_collision_box_tc.cpp">
       <Filter>Source Files\mujoco_tc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mujoco_tc\src\engine_callback.cpp">
@@ -128,7 +131,7 @@
     <ClCompile Include="..\..\..\mujoco_tc\src\mujoco_tc_calculations.cpp">
       <Filter>Source Files\mujoco_tc</Filter>
     </ClCompile>
-    <ClCompile Include="..\OrcTcControl\eigen_tc.cpp">
+    <ClCompile Include="eigen_tc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\orc-a\src\Logger.cpp">
@@ -136,23 +139,23 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="RoboSimFast.rc">
+    <ResourceCompile Include="OrcTcControl.rc">
       <Filter>Source Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="RoboSimFastW32.rc">
+    <ResourceCompile Include="OrcTcControlW32.rc">
       <Filter>TwinCAT UM Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="RoboSimFastW32.def">
+    <None Include="OrcTcControlW32.def">
       <Filter>TwinCAT UM Files</Filter>
     </None>
-    <None Include="RoboSimFast.tmc">
+    <None Include="OrcTcControl.tmc">
       <Filter>TMC Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="RoboSimFastW32.idl">
+    <Midl Include="OrcTcControlW32.idl">
       <Filter>TwinCAT UM Files</Filter>
     </Midl>
   </ItemGroup>
