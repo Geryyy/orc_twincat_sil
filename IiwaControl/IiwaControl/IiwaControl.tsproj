@@ -1156,7 +1156,7 @@
 						<ParameterValues>
 							<Value>
 								<Name>TraceLevelMax</Name>
-								<EnumText>tlVerbose</EnumText>
+								<EnumText>tlInfo</EnumText>
 							</Value>
 							<Value>
 								<Name>Ts</Name>
@@ -1186,7 +1186,7 @@
 							</Value>
 							<Value>
 								<Name>PostCyclic</Name>
-								<OTCID>#x00000000</OTCID>
+								<OTCID>#x01010050</OTCID>
 							</Value>
 						</InterfacePointerValues>
 						<DataPointerValues>
@@ -1586,7 +1586,7 @@
 						<ParameterValues>
 							<Value>
 								<Name>TraceLevelMax</Name>
-								<EnumText>tlVerbose</EnumText>
+								<EnumText>tlInfo</EnumText>
 							</Value>
 							<Value>
 								<Name>Ts</Name>
