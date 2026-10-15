@@ -241,6 +241,9 @@ HRESULT COrcController::SetObjStateSO()
 
 	m_Trace.Log(tlAlways, FLEAVEA "SAFEOP TO OP finished");
 
+	// Allocate the cyclic send path's buffers here: the cyclic task (OP) must not allocate.
+	orc::com::prepare_cyclic_communication(*orc_contr_ptr, state_machine_ptr->get_state(), orc_contr_ptr->get_model_id());
+
 	// If following call is successful the CycleUpdate method will be called, 
 	// possibly even before method has been left.
 	hr = FAILED(hr) ? hr : AddModuleToCaller();
@@ -312,7 +315,7 @@ HRESULT COrcController::CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULONG
 	if (m_spudp_rx_msg != NULL) {
 		if (m_spudp_rx_msg->request) {
 			m_spudp_rx_msg->request = false;
-			orc::com::handle_receive(*orc_contr_ptr, &(m_spudp_rx_msg->data[0]), m_spudp_rx_msg->size);
+			orc::com::handle_receive(*orc_contr_ptr, &(m_spudp_rx_msg->data[0]), m_spudp_rx_msg->size, t);
 		}
 	}
 
@@ -323,7 +326,7 @@ HRESULT COrcController::CycleUpdate(ITcTask* ipTask, ITcUnknown* ipCaller, ULONG
 	/* UDP output */
 	if (m_spudp_tx_msg != NULL) {
 		m_spudp_tx_msg->request = true;
-		auto msg_size = orc::com::send_robot_data(*orc_contr_ptr, t, state_machine_ptr->get_state(), orc_contr_ptr->get_model_id(), m_spudp_tx_msg->data, sizeof(m_spudp_tx_msg->data));
+		auto msg_size = orc::com::send_robot_data_or_notification(*orc_contr_ptr, t, state_machine_ptr->get_state(), orc_contr_ptr->get_model_id(), m_spudp_tx_msg->data, sizeof(m_spudp_tx_msg->data));
 		m_spudp_tx_msg->size = msg_size;
 	}
 
